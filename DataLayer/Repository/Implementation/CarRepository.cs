@@ -33,9 +33,9 @@ namespace DataLayer.Repository.Implementation
             return new OperationResult<IEnumerable<Car>>(result, true, message);
         }
 
-        public async Task<OperationResult<Car>> GetByIdAsync(object id)
+        public async Task<OperationResult<Car>> GetByIdAsync(string id)
         {
-            Car result = await Context.Cars.FindAsync(id);
+            var result = await Context.Cars.FindAsync(id);
             Message message = new Message(string.Empty, "Return Successfully");
             return new OperationResult<Car>(result, true, message);
         }

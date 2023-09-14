@@ -37,13 +37,13 @@ namespace BuisnessLayer.CarAppService.Implementation
             return new OperationResult<IEnumerable<CarDomain>>(result, true, message);
         }
 
-        public async Task<OperationResult<CarDomain>> GetCarByIdAsync(object id)
+        public async Task<OperationResult<CarDomain>> GetCarByIdAsync(string id)
         {
             OperationResult<Car> car = await UnitOfWork.CarRepository.GetByIdAsync(id);
             CarDomain result = null;
-            if (car != null && car.IsSuccess)
+            if (car.Data != null && car.IsSuccess)
             {
-                result = Mapper.Map<CarDomain>(car);
+                result = Mapper.Map<CarDomain>(car.Data);
                 Message message = new Message(string.Empty, car.MainMessage.Text);
                 return new OperationResult<CarDomain>(result, true, message);
             }

@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using BuisnessLayer.CarAppService.Interface;
+using BuisnessLayer.Domain;
 using Car_Rental_Application.DTO;
 using Microsoft.AspNetCore.Mvc;
+using SharedLayer.Core.ValueObjects;
 
 namespace Car_Rental_Application.Controllers
 {
@@ -24,9 +26,21 @@ namespace Car_Rental_Application.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CarDto>>> Get()
         {
-            var result = await CarService.GetAllCarsAsync();
-            var cars = Mapper.Map<IEnumerable<CarDto>>(result.Data);
+            OperationResult<IEnumerable<CarDomain>> result = await CarService.GetAllCarsAsync();
+            IEnumerable<CarDto> cars = Mapper.Map<IEnumerable<CarDto>>(result.Data);
             return Ok(cars);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<CarDto>> Get([FromRoute] string id)
+        {
+            OperationResult<CarDomain> result = await CarService.GetCarByIdAsync(id);
+            if (result.IsSuccess && result.Data != null)
+            {
+                CarDto car = Mapper.Map<CarDto>(result.Data);
+                return Ok(car);
+            }
+            return NotFound();
         }
     }
 }

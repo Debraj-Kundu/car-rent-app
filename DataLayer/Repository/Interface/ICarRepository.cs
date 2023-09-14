@@ -12,6 +12,6 @@ namespace DataLayer.Repository.Interface
     public interface ICarRepository : IRepository<Car>
     {
         Task<OperationResult<IEnumerable<Car>>> GetAllAsync();
-        Task<OperationResult<Car>> GetByIdAsync(object id);
+        Task<OperationResult<Car>> GetByIdAsync(string id);
     }
 }
