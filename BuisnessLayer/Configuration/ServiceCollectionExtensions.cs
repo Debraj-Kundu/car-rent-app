@@ -1,5 +1,5 @@
-﻿//using BuisnessLayer.ProductAppServices.Implementation;
-//using BuisnessLayer.ProductAppServices.Interface;
+﻿using BuisnessLayer.CarAppService.Implementation;
+using BuisnessLayer.CarAppService.Interface;
 using DataLayer.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -15,7 +15,7 @@ namespace BuisnessLayer.Configuration
             //services.AddScoped<ICartService, CartService>();
             //services.AddScoped<IOrderService, OrderService>();
             //services.AddScoped<IReviewService, ReviewService>();
-            //services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICarService, CarService>();
             //services.AddScoped<ICategoryService, CategoryService>();
             //services.AddScoped<ITopOrderService, TopOrderService>();
             //services.AddScoped<ICustomerService, CustomerService>();

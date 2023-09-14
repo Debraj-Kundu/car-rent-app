@@ -2,6 +2,8 @@
 using BuisnessLayer.Configuration;
 using SharedLayer.Core.ExceptionManagement;
 using AutoMapper;
+using BuisnessLayer.Mapper;
+using FinalTest.WebAPI.Mapper;
 
 namespace Car_Rental_Application
 {
@@ -18,8 +20,8 @@ namespace Car_Rental_Application
             Configuration = configuration;
             MapperConfiguration = new MapperConfiguration(cfg =>
             {
-                //cfg.AddProfile(new MappingProfile());
-                //cfg.AddProfile(new ApiMappingProfile());
+                cfg.AddProfile(new MappingProfile());
+                cfg.AddProfile(new ApiMappingProfile());
             });
         }
         public void ConfigureServices(IServiceCollection services)

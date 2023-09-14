@@ -1,8 +1,7 @@
-﻿//using FinalTest.DataLayer.DataContext;
-//using FinalTest.DataLayer.Repository.Implementation;
-//using FinalTest.DataLayer.Repository.Interface;
-//using FinalTest.DataLayer.UoW;
-using DataLayer.DataContext;
+﻿using DataLayer.DataContext;
+using DataLayer.Repository.Implementation;
+using DataLayer.Repository.Interface;
+using DataLayer.UoW;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -21,14 +20,14 @@ namespace DataLayer.Configuration
                 options.UseSqlServer(connectionString);
             }, ServiceLifetime.Scoped);
 
-            //services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<ICarRepository, CarRepository>();
             //services.AddScoped<IProductRepository, ProductRepository>();
             //services.AddScoped<ICategoryRepository, CategoryRepository>();
             //services.AddScoped<ICustomerRepository, CustomerRepository>();
             //services.AddScoped<ICustomerCartRepository, CustomerCartRepository>();
             //services.AddScoped<IReviewRepository, ReviewRepository>();
 
-            //services.AddScoped<IProductUnitOfWork, ProductUnitOfWork>();
+            services.AddScoped<ICarUnitOfWork, CarUnitOfWork>();
 
             return services;
         }

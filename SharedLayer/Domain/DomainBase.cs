@@ -16,7 +16,7 @@ namespace SharedLayer.Domain
         }
         #endregion
 
-        [Key]
+        //[Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public virtual int Id { get; set; }
 

@@ -4,6 +4,7 @@ using DataLayer.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(CarDomainDbContext))]
-    partial class CarDomainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230914052420_SeedData_14-09-2023")]
+    partial class SeedData_14092023
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,20 +26,17 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Entity.Car", b =>
                 {
-                    b.Property<string>("VehicalId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("AvailabilityStatus")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset>("CreatedOnDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Maker")
                         .IsRequired()
@@ -53,7 +52,11 @@ namespace DataLayer.Migrations
                     b.Property<decimal>("RentalPrice")
                         .HasColumnType("decimal(18,4)");
 
-                    b.HasKey("VehicalId");
+                    b.Property<string>("VehicalId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("VehicalId")
                         .IsUnique();
@@ -63,50 +66,27 @@ namespace DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            VehicalId = "1",
-                            AvailabilityStatus = true,
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 14, 5, 39, 9, 126, DateTimeKind.Unspecified).AddTicks(8693), new TimeSpan(0, 0, 0, 0, 0)),
                             Id = 1,
+                            AvailabilityStatus = true,
+                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 14, 5, 24, 19, 902, DateTimeKind.Unspecified).AddTicks(4834), new TimeSpan(0, 0, 0, 0, 0)),
                             Maker = "Maruti",
                             Model = "Swift Desire",
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 14, 5, 39, 9, 126, DateTimeKind.Unspecified).AddTicks(8693), new TimeSpan(0, 0, 0, 0, 0)),
-                            RentalPrice = 58000m
-                        },
-                        new
-                        {
-                            VehicalId = "2",
-                            AvailabilityStatus = true,
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 14, 5, 39, 9, 126, DateTimeKind.Unspecified).AddTicks(8696), new TimeSpan(0, 0, 0, 0, 0)),
-                            Id = 2,
-                            Maker = "Hyundai",
-                            Model = "i20",
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 14, 5, 39, 9, 126, DateTimeKind.Unspecified).AddTicks(8696), new TimeSpan(0, 0, 0, 0, 0)),
-                            RentalPrice = 64000m
-                        },
-                        new
-                        {
-                            VehicalId = "3",
-                            AvailabilityStatus = true,
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 14, 5, 39, 9, 126, DateTimeKind.Unspecified).AddTicks(8698), new TimeSpan(0, 0, 0, 0, 0)),
-                            Id = 3,
-                            Maker = "Maruti",
-                            Model = "Alto",
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 14, 5, 39, 9, 126, DateTimeKind.Unspecified).AddTicks(8698), new TimeSpan(0, 0, 0, 0, 0)),
-                            RentalPrice = 46000m
+                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 14, 5, 24, 19, 902, DateTimeKind.Unspecified).AddTicks(4835), new TimeSpan(0, 0, 0, 0, 0)),
+                            RentalPrice = 58000m,
+                            VehicalId = "1"
                         });
                 });
 
             modelBuilder.Entity("DataLayer.Entity.RentedCar", b =>
                 {
-                    b.Property<string>("RentalId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CarId")
                         .HasColumnType("int");
-
-                    b.Property<string>("CarVehicalId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTimeOffset>("CreatedOnDate")
                         .HasColumnType("datetimeoffset");
@@ -117,14 +97,12 @@ namespace DataLayer.Migrations
                     b.Property<DateTime>("DateReturn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<DateTimeOffset>("ModifiedOnDate")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("RentalId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalCost")
                         .HasColumnType("decimal(18,4)");
@@ -132,23 +110,22 @@ namespace DataLayer.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.HasKey("Id");
 
-                    b.HasKey("RentalId");
+                    b.HasIndex("CarId");
 
-                    b.HasIndex("CarVehicalId");
-
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("RentedCars");
                 });
 
             modelBuilder.Entity("DataLayer.Entity.User", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTimeOffset>("CreatedOnDate")
                         .HasColumnType("datetimeoffset");
@@ -156,12 +133,6 @@ namespace DataLayer.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTimeOffset>("ModifiedOnDate")
                         .HasColumnType("datetimeoffset");
@@ -178,7 +149,11 @@ namespace DataLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -188,14 +163,14 @@ namespace DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "1",
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 14, 5, 39, 9, 126, DateTimeKind.Unspecified).AddTicks(8608), new TimeSpan(0, 0, 0, 0, 0)),
-                            Email = "user1@user.com",
                             Id = 1,
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 14, 5, 39, 9, 126, DateTimeKind.Unspecified).AddTicks(8608), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 14, 5, 24, 19, 902, DateTimeKind.Unspecified).AddTicks(4698), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "user1@user.com",
+                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 14, 5, 24, 19, 902, DateTimeKind.Unspecified).AddTicks(4699), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "UserOne",
                             Password = "User@123",
-                            Role = "User"
+                            Role = "User",
+                            UserId = "1"
                         });
                 });
 
@@ -203,13 +178,13 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.Entity.Car", "Car")
                         .WithMany()
-                        .HasForeignKey("CarVehicalId")
+                        .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DataLayer.Entity.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

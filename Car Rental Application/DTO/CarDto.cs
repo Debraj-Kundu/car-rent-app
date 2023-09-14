@@ -1,18 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using SharedLayer.Domain;
-using System;
-using System.Collections.Generic;
+﻿using SharedLayer.Service;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DataLayer.Entity
+namespace Car_Rental_Application.DTO
 {
-    public class Car : DomainBase
+    public class CarDto : DtoBase
     {
-        [Key]
         [Required]
         public string VehicalId { get; set; }
 
@@ -22,12 +14,10 @@ namespace DataLayer.Entity
         [Required]
         public string Model { get; set; }
 
-        [Column(TypeName = "decimal(18,4)")]
         [Required]
         public decimal RentalPrice { get; set; }
 
         [Required]
         public bool AvailabilityStatus { get; set; }
-
     }
 }

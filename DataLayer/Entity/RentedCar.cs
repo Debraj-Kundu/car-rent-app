@@ -12,6 +12,7 @@ namespace DataLayer.Entity
 {
     public class RentedCar : DomainBase
     {
+        [Key]
         [Required]
         public string RentalId { get; set; }
         public int UserId { get; set; }

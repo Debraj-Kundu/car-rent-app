@@ -11,6 +11,7 @@ namespace DataLayer.Entity
 {
     public class User : DomainBase
     {
+        [Key]
         [Required]
         public string UserId { get; set; }
 
