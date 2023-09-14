@@ -13,5 +13,6 @@ namespace DataLayer.Repository.Interface
     {
         Task<OperationResult<IEnumerable<Car>>> GetAllAsync();
         Task<OperationResult<Car>> GetByIdAsync(string id);
+        new Task<OperationResult> AddAsync(Car entity);
     }
 }

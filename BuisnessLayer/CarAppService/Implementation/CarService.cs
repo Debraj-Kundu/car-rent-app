@@ -53,5 +53,17 @@ namespace BuisnessLayer.CarAppService.Implementation
                 return new OperationResult<CarDomain>(result, false, message);
             }
         }
+
+        public async Task<OperationResult> CreateCarAsync(CarDomain car)
+        {
+            Car carToCreate = Mapper.Map<CarDomain, Car>(car);
+            carToCreate.CreatedOnDate = DateTimeOffset.Now;
+
+            await UnitOfWork.CarRepository.AddAsync(carToCreate);
+
+            OperationResult result = await UnitOfWork.Commit();
+
+            return new OperationResult(result.IsSuccess, result.MainMessage);
+        }
     }
 }

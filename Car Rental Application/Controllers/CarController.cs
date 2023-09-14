@@ -42,5 +42,21 @@ namespace Car_Rental_Application.Controllers
             }
             return NotFound();
         }
+
+        [HttpPost]
+        public async Task<ActionResult> Post(CarDto car)
+        {
+            if (car == null)
+            {
+                return BadRequest();
+            }
+            CarDomain carToCreate = Mapper.Map<CarDomain>(car);
+            var result = await CarService.CreateCarAsync(carToCreate);
+            if(result.IsSuccess)
+            {
+                return Created(nameof(Post), car);
+            }
+            return BadRequest(result.MainMessage.Text);
+        }
     }
 }

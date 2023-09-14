@@ -39,5 +39,12 @@ namespace DataLayer.Repository.Implementation
             Message message = new Message(string.Empty, "Return Successfully");
             return new OperationResult<Car>(result, true, message);
         }
+
+        public new async Task<OperationResult> AddAsync(Car entity)
+        {
+            await base.AddAsync(entity);
+            Message message = new Message(string.Empty, "Created Successfully");
+            return new OperationResult(true, message);
+        }
     }
 }
