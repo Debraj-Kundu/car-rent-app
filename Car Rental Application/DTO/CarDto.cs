@@ -5,19 +5,19 @@ namespace Car_Rental_Application.DTO
 {
     public class CarDto : DtoBase
     {
-        [Required]
-        public string VehicalId { get; set; }
+        ////[Required]
+        //public string VehicalId { get; set; }
 
-        [Required]
+        //[Required]
         public string Maker { get; set; }
 
-        [Required]
+        //[Required]
         public string Model { get; set; }
 
-        [Required]
+        //[Required]
         public decimal RentalPrice { get; set; }
 
-        [Required]
+        //[Required]
         public bool AvailabilityStatus { get; set; }
     }
 }

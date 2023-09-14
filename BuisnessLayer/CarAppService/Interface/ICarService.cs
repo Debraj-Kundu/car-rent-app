@@ -12,7 +12,8 @@ namespace BuisnessLayer.CarAppService.Interface
     public interface ICarService
     {
         Task<OperationResult<IEnumerable<CarDomain>>> GetAllCarsAsync();
-        Task<OperationResult<CarDomain>> GetCarByIdAsync(string id);
+        Task<OperationResult<CarDomain>> GetCarByIdAsync(int id);
         Task<OperationResult> CreateCarAsync(CarDomain car);
+        Task<OperationResult> UpdateCarAsync(CarDomain car);
     }
 }

@@ -31,8 +31,8 @@ namespace Car_Rental_Application.Controllers
             return Ok(cars);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CarDto>> Get([FromRoute] string id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<CarDto>> Get([FromRoute] int id)
         {
             OperationResult<CarDomain> result = await CarService.GetCarByIdAsync(id);
             if (result.IsSuccess && result.Data != null)
@@ -56,6 +56,17 @@ namespace Car_Rental_Application.Controllers
             {
                 return Created(nameof(Post), car);
             }
+            return BadRequest(result.MainMessage.Text);
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> Put(int id, CarDto car)
+        {
+            car.Id = id;
+            var carDomain = Mapper.Map<CarDomain>(car);
+            var result = await CarService.UpdateCarAsync(carDomain);
+            if(result.IsSuccess)
+                return Created(nameof(Put), car);
             return BadRequest(result.MainMessage.Text);
         }
     }

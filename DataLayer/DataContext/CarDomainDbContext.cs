@@ -16,12 +16,6 @@ namespace DataLayer.DataContext
         public CarDomainDbContext(DbContextOptions<CarDomainDbContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Car>()
-                .HasIndex(c => c.VehicalId)
-                .IsUnique(true);
-            builder.Entity<User>()
-                .HasIndex(p => p.UserId)
-                .IsUnique(true);
             new DbInitializer(builder).Seed();
         }
     }

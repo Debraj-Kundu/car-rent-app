@@ -11,7 +11,7 @@ namespace BuisnessLayer.Domain
 {
     public class CarDomain : DomainBase
     {
-        public string VehicalId { get; set; }
+        //public string VehicalId { get; set; }
 
         public string Maker { get; set; }
 

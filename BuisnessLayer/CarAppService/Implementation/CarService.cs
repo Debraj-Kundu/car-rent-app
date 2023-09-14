@@ -37,7 +37,7 @@ namespace BuisnessLayer.CarAppService.Implementation
             return new OperationResult<IEnumerable<CarDomain>>(result, true, message);
         }
 
-        public async Task<OperationResult<CarDomain>> GetCarByIdAsync(string id)
+        public async Task<OperationResult<CarDomain>> GetCarByIdAsync(int id)
         {
             OperationResult<Car> car = await UnitOfWork.CarRepository.GetByIdAsync(id);
             CarDomain result = null;
@@ -60,7 +60,17 @@ namespace BuisnessLayer.CarAppService.Implementation
             carToCreate.CreatedOnDate = DateTimeOffset.Now;
 
             await UnitOfWork.CarRepository.AddAsync(carToCreate);
+            car.Id = carToCreate.Id;
+            OperationResult result = await UnitOfWork.Commit();
 
+            return new OperationResult(result.IsSuccess, result.MainMessage);
+        }
+
+        public async Task<OperationResult> UpdateCarAsync(CarDomain car)
+        {
+            Car carEntity = Mapper.Map<Car>(car);
+            await UnitOfWork.CarRepository.UpdateAsync(carEntity);
+            
             OperationResult result = await UnitOfWork.Commit();
 
             return new OperationResult(result.IsSuccess, result.MainMessage);

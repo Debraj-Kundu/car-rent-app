@@ -12,9 +12,8 @@ namespace DataLayer.Entity
 {
     public class Car : DomainBase
     {
-        [Key]
-        [Required]
-        public string VehicalId { get; set; }
+        //[Required]
+        //public string VehicalId { get; set; }
 
         [Required]
         public string Maker { get; set; }
