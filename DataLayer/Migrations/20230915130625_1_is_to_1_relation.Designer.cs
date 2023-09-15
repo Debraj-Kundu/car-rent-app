@@ -4,6 +4,7 @@ using DataLayer.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(CarDomainDbContext))]
-    partial class CarDomainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230915130625_1_is_to_1_relation")]
+    partial class _1_is_to_1_relation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,30 +61,30 @@ namespace DataLayer.Migrations
                         {
                             Id = 1,
                             AvailabilityStatus = true,
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 31, 36, 335, DateTimeKind.Unspecified).AddTicks(9219), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 6, 25, 433, DateTimeKind.Unspecified).AddTicks(583), new TimeSpan(0, 0, 0, 0, 0)),
                             Maker = "Maruti",
                             Model = "Swift Desire",
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 31, 36, 335, DateTimeKind.Unspecified).AddTicks(9219), new TimeSpan(0, 0, 0, 0, 0)),
+                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 6, 25, 433, DateTimeKind.Unspecified).AddTicks(583), new TimeSpan(0, 0, 0, 0, 0)),
                             RentalPrice = 58000m
                         },
                         new
                         {
                             Id = 2,
                             AvailabilityStatus = true,
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 31, 36, 335, DateTimeKind.Unspecified).AddTicks(9221), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 6, 25, 433, DateTimeKind.Unspecified).AddTicks(586), new TimeSpan(0, 0, 0, 0, 0)),
                             Maker = "Hyundai",
                             Model = "i20",
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 31, 36, 335, DateTimeKind.Unspecified).AddTicks(9221), new TimeSpan(0, 0, 0, 0, 0)),
+                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 6, 25, 433, DateTimeKind.Unspecified).AddTicks(587), new TimeSpan(0, 0, 0, 0, 0)),
                             RentalPrice = 64000m
                         },
                         new
                         {
                             Id = 3,
                             AvailabilityStatus = true,
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 31, 36, 335, DateTimeKind.Unspecified).AddTicks(9223), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 6, 25, 433, DateTimeKind.Unspecified).AddTicks(589), new TimeSpan(0, 0, 0, 0, 0)),
                             Maker = "Maruti",
                             Model = "Alto",
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 31, 36, 335, DateTimeKind.Unspecified).AddTicks(9223), new TimeSpan(0, 0, 0, 0, 0)),
+                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 6, 25, 433, DateTimeKind.Unspecified).AddTicks(589), new TimeSpan(0, 0, 0, 0, 0)),
                             RentalPrice = 46000m
                         });
                 });
@@ -118,9 +120,11 @@ namespace DataLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarId");
+                    b.HasIndex("CarId")
+                        .IsUnique();
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("RentedCars");
                 });
@@ -163,9 +167,9 @@ namespace DataLayer.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 31, 36, 335, DateTimeKind.Unspecified).AddTicks(9120), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 6, 25, 433, DateTimeKind.Unspecified).AddTicks(308), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "user1@user.com",
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 31, 36, 335, DateTimeKind.Unspecified).AddTicks(9121), new TimeSpan(0, 0, 0, 0, 0)),
+                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 6, 25, 433, DateTimeKind.Unspecified).AddTicks(309), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "UserOne",
                             Password = "User@123",
                             Role = "User"
@@ -175,14 +179,14 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("DataLayer.Entity.RentedCar", b =>
                 {
                     b.HasOne("DataLayer.Entity.Car", "Car")
-                        .WithMany("RentedCar")
-                        .HasForeignKey("CarId")
+                        .WithOne("RentedCar")
+                        .HasForeignKey("DataLayer.Entity.RentedCar", "CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DataLayer.Entity.User", "User")
-                        .WithMany("RentedCar")
-                        .HasForeignKey("UserId")
+                        .WithOne("RentedCar")
+                        .HasForeignKey("DataLayer.Entity.RentedCar", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

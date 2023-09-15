@@ -21,7 +21,7 @@ namespace DataLayer.Configuration
             }, ServiceLifetime.Scoped);
 
             services.AddScoped<ICarRepository, CarRepository>();
-            //services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IRentedCarRepository, RentedCarRepository>();
             //services.AddScoped<ICategoryRepository, CategoryRepository>();
             //services.AddScoped<ICustomerRepository, CustomerRepository>();
             //services.AddScoped<ICustomerCartRepository, CustomerCartRepository>();

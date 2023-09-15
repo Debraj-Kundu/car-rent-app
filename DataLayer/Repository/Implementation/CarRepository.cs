@@ -48,9 +48,5 @@ namespace DataLayer.Repository.Implementation
             return new OperationResult(true, message);
         }
 
-        //public async Task<OperationResult> RemoveAsync(int id)
-        //{
-        //    var carToDelete = await 
-        //}
     }
 }

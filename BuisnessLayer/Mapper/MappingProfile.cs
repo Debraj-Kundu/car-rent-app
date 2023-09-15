@@ -11,9 +11,14 @@ namespace BuisnessLayer.Mapper
     {
         public MappingProfile() : base("MappingProfile")
         {
-            //CreateMap<Order, OrderDomain>().ReverseMap();
             CreateMap<Car, CarDomain>().ReverseMap();
-            //CreateMap<Customer, CustomerDomain>().ReverseMap();
+            CreateMap<RentedCar, RentedCarDomain>()
+                .ForMember(dest => dest.CarDomain, opt => opt.MapFrom(src => src.Car))
+                .ForMember(dest => dest.UserDomain, opt => opt.MapFrom(src => src.User));
+            CreateMap<RentedCarDomain, RentedCar>()
+                .ForMember(dest => dest.Car, opt => opt.MapFrom(src => src.CarDomain))
+                .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.UserDomain));
+            CreateMap<User, UserDomain>().ReverseMap();
         }
     }
 }

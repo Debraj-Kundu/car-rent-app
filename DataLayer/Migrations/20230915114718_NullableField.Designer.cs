@@ -4,6 +4,7 @@ using DataLayer.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(CarDomainDbContext))]
-    partial class CarDomainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230915114718_NullableField")]
+    partial class NullableField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,30 +61,30 @@ namespace DataLayer.Migrations
                         {
                             Id = 1,
                             AvailabilityStatus = true,
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 31, 36, 335, DateTimeKind.Unspecified).AddTicks(9219), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 11, 47, 18, 212, DateTimeKind.Unspecified).AddTicks(7975), new TimeSpan(0, 0, 0, 0, 0)),
                             Maker = "Maruti",
                             Model = "Swift Desire",
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 31, 36, 335, DateTimeKind.Unspecified).AddTicks(9219), new TimeSpan(0, 0, 0, 0, 0)),
+                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 11, 47, 18, 212, DateTimeKind.Unspecified).AddTicks(7975), new TimeSpan(0, 0, 0, 0, 0)),
                             RentalPrice = 58000m
                         },
                         new
                         {
                             Id = 2,
                             AvailabilityStatus = true,
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 31, 36, 335, DateTimeKind.Unspecified).AddTicks(9221), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 11, 47, 18, 212, DateTimeKind.Unspecified).AddTicks(7978), new TimeSpan(0, 0, 0, 0, 0)),
                             Maker = "Hyundai",
                             Model = "i20",
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 31, 36, 335, DateTimeKind.Unspecified).AddTicks(9221), new TimeSpan(0, 0, 0, 0, 0)),
+                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 11, 47, 18, 212, DateTimeKind.Unspecified).AddTicks(7978), new TimeSpan(0, 0, 0, 0, 0)),
                             RentalPrice = 64000m
                         },
                         new
                         {
                             Id = 3,
                             AvailabilityStatus = true,
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 31, 36, 335, DateTimeKind.Unspecified).AddTicks(9223), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 11, 47, 18, 212, DateTimeKind.Unspecified).AddTicks(7980), new TimeSpan(0, 0, 0, 0, 0)),
                             Maker = "Maruti",
                             Model = "Alto",
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 31, 36, 335, DateTimeKind.Unspecified).AddTicks(9223), new TimeSpan(0, 0, 0, 0, 0)),
+                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 11, 47, 18, 212, DateTimeKind.Unspecified).AddTicks(7980), new TimeSpan(0, 0, 0, 0, 0)),
                             RentalPrice = 46000m
                         });
                 });
@@ -117,10 +119,6 @@ namespace DataLayer.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CarId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("RentedCars");
                 });
@@ -163,42 +161,13 @@ namespace DataLayer.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 31, 36, 335, DateTimeKind.Unspecified).AddTicks(9120), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 11, 47, 18, 212, DateTimeKind.Unspecified).AddTicks(7829), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "user1@user.com",
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 13, 31, 36, 335, DateTimeKind.Unspecified).AddTicks(9121), new TimeSpan(0, 0, 0, 0, 0)),
+                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 15, 11, 47, 18, 212, DateTimeKind.Unspecified).AddTicks(7830), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "UserOne",
                             Password = "User@123",
                             Role = "User"
                         });
-                });
-
-            modelBuilder.Entity("DataLayer.Entity.RentedCar", b =>
-                {
-                    b.HasOne("DataLayer.Entity.Car", "Car")
-                        .WithMany("RentedCar")
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataLayer.Entity.User", "User")
-                        .WithMany("RentedCar")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Car");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("DataLayer.Entity.Car", b =>
-                {
-                    b.Navigation("RentedCar");
-                });
-
-            modelBuilder.Entity("DataLayer.Entity.User", b =>
-                {
-                    b.Navigation("RentedCar");
                 });
 #pragma warning restore 612, 618
         }

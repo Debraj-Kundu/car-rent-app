@@ -28,5 +28,7 @@ namespace DataLayer.Entity
         [Required]
         public bool AvailabilityStatus { get; set; }
 
+        public ICollection<RentedCar>? RentedCar { get; set; }
+
     }
 }

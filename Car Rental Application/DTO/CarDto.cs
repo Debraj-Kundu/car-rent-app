@@ -19,5 +19,7 @@ namespace Car_Rental_Application.DTO
 
         //[Required]
         public bool AvailabilityStatus { get; set; }
+
+        public ICollection<RentedCarDto>? RentedCarDto { get; set; }
     }
 }

@@ -20,5 +20,6 @@ namespace BuisnessLayer.Domain
         public decimal RentalPrice { get; set; }
 
         public bool AvailabilityStatus { get; set; }
+        public ICollection<RentedCarDomain>? RentedCarDomain { get; set; }
     }
 }

@@ -26,5 +26,6 @@ namespace DataLayer.Entity
 
         [DefaultValue("User")]
         public string Role { get; set; } = "User";
+        public ICollection<RentedCar>? RentedCar { get; set; }
     }
 }

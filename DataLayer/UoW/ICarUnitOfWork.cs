@@ -11,5 +11,6 @@ namespace DataLayer.UoW
     public interface ICarUnitOfWork : IUnitOfWork
     {
         ICarRepository CarRepository { get; }
+        IRentedCarRepository RentedCarRepository { get; }
     }
 }

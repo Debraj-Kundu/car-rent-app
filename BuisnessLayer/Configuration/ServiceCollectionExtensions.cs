@@ -13,9 +13,9 @@ namespace BuisnessLayer.Configuration
         public static IServiceCollection RegisterServices(this IServiceCollection services, string connectionString)
         {
             //services.AddScoped<ICartService, CartService>();
-            //services.AddScoped<IOrderService, OrderService>();
             //services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<ICarService, CarService>();
+            services.AddScoped<IRentedCarService, RentedCarService>();
             //services.AddScoped<ICategoryService, CategoryService>();
             //services.AddScoped<ITopOrderService, TopOrderService>();
             //services.AddScoped<ICustomerService, CustomerService>();
