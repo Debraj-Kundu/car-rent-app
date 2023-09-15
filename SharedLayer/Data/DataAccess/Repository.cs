@@ -64,7 +64,7 @@ namespace SharedLayer.Data.DataAccess
         {
             return await dbContext.Set<TEntity>().FirstOrDefaultAsync(predicate);
         }
-        public virtual void Delete(object id)
+        public virtual void Delete(int id)
         {
             var entityToDelete = GetById(id);
             Delete(entityToDelete);

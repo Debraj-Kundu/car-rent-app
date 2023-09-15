@@ -15,5 +15,6 @@ namespace BuisnessLayer.CarAppService.Interface
         Task<OperationResult<CarDomain>> GetCarByIdAsync(int id);
         Task<OperationResult> CreateCarAsync(CarDomain car);
         Task<OperationResult> UpdateCarAsync(CarDomain car);
+        Task<OperationResult> RemoveCarAsync(int id);
     }
 }

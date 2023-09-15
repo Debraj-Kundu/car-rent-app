@@ -75,5 +75,13 @@ namespace BuisnessLayer.CarAppService.Implementation
 
             return new OperationResult(result.IsSuccess, result.MainMessage);
         }
+    
+        public async Task<OperationResult> RemoveCarAsync(int id)
+        {
+            UnitOfWork.CarRepository.Delete(id);
+            Message message = new Message(string.Empty, "Deleted Successfully");
+            await UnitOfWork.Commit();
+            return new OperationResult(true, message);
+        }
     }
 }

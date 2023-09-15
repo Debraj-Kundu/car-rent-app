@@ -25,7 +25,7 @@ namespace SharedLayer.Data.DataAccess
         Task AddAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);
         void Delete(TEntity entity);
-        void Delete(object id);
+        void Delete(int id);
         void Delete(Expression<Func<TEntity, bool>> predicate);
 
     }

@@ -69,5 +69,14 @@ namespace Car_Rental_Application.Controllers
                 return Created(nameof(Put), car);
             return BadRequest(result.MainMessage.Text);
         }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var result = await CarService.RemoveCarAsync(id);
+            if (result.IsSuccess)
+                return Ok();
+            return BadRequest(result.MainMessage.Text);
+        }
     }
 }

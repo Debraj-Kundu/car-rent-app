@@ -4,6 +4,7 @@ using DataLayer.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 using SharedLayer.Core.ValueObjects;
 using SharedLayer.Data.DataAccess;
+using SharedLayer.Data.Transaction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,5 +47,10 @@ namespace DataLayer.Repository.Implementation
             Message message = new Message(string.Empty, "Created Successfully");
             return new OperationResult(true, message);
         }
+
+        //public async Task<OperationResult> RemoveAsync(int id)
+        //{
+        //    var carToDelete = await 
+        //}
     }
 }
