@@ -26,11 +26,22 @@ namespace BuisnessLayer.CarAppService.Implementation
         {
             RentedCar carToCreate = Mapper.Map<RentedCarDomain, RentedCar>(car);
             carToCreate.CreatedOnDate = DateTimeOffset.Now;
+            
+            decimal days = (decimal)carToCreate.DateReturn.Subtract(carToCreate.DateRented).TotalDays;
+            
+            var price = (await GetCarDetails(car.CarId)).RentalPrice;
+            carToCreate.TotalCost = price * days;
 
             await UnitOfWork.RentedCarRepository.AddAsync(carToCreate);
             car.Id = carToCreate.Id;
             OperationResult result = await UnitOfWork.Commit();
             return new OperationResult(result.IsSuccess, result.MainMessage);
+        }
+
+        private async Task<Car> GetCarDetails(int id)
+        {
+            var car = await UnitOfWork.CarRepository.GetByIdAsync(id);
+            return car.Data;
         }
 
         public async Task<OperationResult<IEnumerable<RentedCarDomain>>> GetAllRentedCarsAsync()
