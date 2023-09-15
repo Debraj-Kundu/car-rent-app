@@ -39,21 +39,21 @@ namespace DataLayer.Repository.Implementation
             return new OperationResult<RentedCar>(result, true, message);
         }
 
-        public async Task<OperationResult<RentedCar>> GetByCarIdAsync(int id)
+        public async Task<OperationResult<IEnumerable<RentedCar>>> GetByCarIdAsync(int id)
         {
             var result = await Context.RentedCars.Include(rc => rc.Car)
                                                 .Include(rc => rc.User)
-                                                .FirstOrDefaultAsync(rc => rc.CarId == id);
+                                                .Where(rc => rc.CarId == id).ToListAsync();
             Message message = new Message(string.Empty, "Return Successfully");
-            return new OperationResult<RentedCar>(result, true, message);
+            return new OperationResult<IEnumerable<RentedCar>>(result, true, message);
         }
-        public async Task<OperationResult<RentedCar>> GetByUserIdAsync(int id)
+        public async Task<OperationResult<IEnumerable<RentedCar>>> GetByUserIdAsync(int id)
         {
             var result = await Context.RentedCars.Include(rc => rc.Car)
                                                 .Include(rc => rc.User)
-                                                .FirstOrDefaultAsync(rc => rc.UserId == id);
+                                                .Where(rc => rc.UserId == id).ToListAsync();
             Message message = new Message(string.Empty, "Return Successfully");
-            return new OperationResult<RentedCar>(result, true, message);
+            return new OperationResult<IEnumerable<RentedCar>>(result, true, message);
         }
 
         public new async Task<OperationResult> AddAsync(RentedCar entity)

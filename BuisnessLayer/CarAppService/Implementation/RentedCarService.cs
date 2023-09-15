@@ -63,5 +63,40 @@ namespace BuisnessLayer.CarAppService.Implementation
                 return new OperationResult<RentedCarDomain>(result, false, message);
             }
         }
+
+        public async Task<OperationResult<IEnumerable<RentedCarDomain>>> GetRentedCarByCarIdAsync(int id)
+        {
+            OperationResult<IEnumerable<RentedCar>> car = await UnitOfWork.RentedCarRepository.GetByCarIdAsync(id);
+            IEnumerable<RentedCarDomain> result = null;
+            if (car.Data != null && car.IsSuccess)
+            {
+                result = Mapper.Map<IEnumerable<RentedCarDomain>>(car.Data);
+                Message message = new Message(string.Empty, car.MainMessage.Text);
+                return new OperationResult<IEnumerable<RentedCarDomain>>(result, true, message);
+            }
+            else
+            {
+                Message message = new Message(string.Empty, "No car found with id: " + id);
+                return new OperationResult<IEnumerable<RentedCarDomain>>(result, false, message);
+            }
+        }
+
+        public async Task<OperationResult<IEnumerable<RentedCarDomain>>> GetRentedCarByUserIdAsync(int id)
+        {
+            OperationResult<IEnumerable<RentedCar>> car = await UnitOfWork.RentedCarRepository.GetByUserIdAsync(id);
+            IEnumerable<RentedCarDomain> result = new List<RentedCarDomain>();
+            if (car.Data != null && car.IsSuccess)
+            {
+                result = Mapper.Map<IEnumerable<RentedCarDomain>>(car.Data);
+                Message message = new Message(string.Empty, car.MainMessage.Text);
+                return new OperationResult<IEnumerable<RentedCarDomain>>(result, true, message);
+            }
+            else
+            {
+                Message message = new Message(string.Empty, "No car found with id: " + id);
+                return new OperationResult<IEnumerable<RentedCarDomain>>(result, false, message);
+            }
+        }
+
     }
 }

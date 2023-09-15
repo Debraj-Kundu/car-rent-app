@@ -14,7 +14,7 @@ namespace DataLayer.Repository.Interface
         Task<OperationResult<IEnumerable<RentedCar>>> GetAllAsync();
         Task<OperationResult<RentedCar>> GetByIdAsync(int id);
         new Task<OperationResult> AddAsync(RentedCar entity);
-        Task<OperationResult<RentedCar>> GetByCarIdAsync(int id);
-        Task<OperationResult<RentedCar>> GetByUserIdAsync(int id);
+        Task<OperationResult<IEnumerable<RentedCar>>> GetByCarIdAsync(int id);
+        Task<OperationResult<IEnumerable<RentedCar>>> GetByUserIdAsync(int id);
     }
 }

@@ -47,5 +47,40 @@ namespace Car_Rental_Application.Controllers
             }
             return BadRequest(result.MainMessage.Text);
         }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<RentedCarDto>> Get([FromRoute] int id)
+        {
+            OperationResult<RentedCarDomain> result = await RentedCarService.GetRentedCarByIdAsync(id);
+            if (result.IsSuccess && result.Data != null)
+            {
+                RentedCarDto car = Mapper.Map<RentedCarDto>(result.Data);
+                return Ok(car);
+            }
+            return NotFound();
+        }
+        [HttpGet("/api/[controller]/[action]/{id:int}")]
+        public async Task<ActionResult<IEnumerable<RentedCarDto>>> GetByCarId([FromRoute] int id)
+        {
+            OperationResult<IEnumerable<RentedCarDomain>> result = await RentedCarService.GetRentedCarByCarIdAsync(id);
+            if (result.IsSuccess && result.Data != null)
+            {
+                IEnumerable<RentedCarDto> car = Mapper.Map<IEnumerable<RentedCarDto>>(result.Data);
+                return Ok(car);
+            }
+            return NotFound();
+        }
+
+        [HttpGet("/api/[controller]/[action]/{id:int}")]
+        public async Task<ActionResult<IEnumerable<RentedCarDto>>> GetByUserId([FromRoute] int id)
+        {
+            OperationResult<IEnumerable<RentedCarDomain>> result = await RentedCarService.GetRentedCarByUserIdAsync(id);
+            if (result.IsSuccess && result.Data != null)
+            {
+                IEnumerable<RentedCarDto> car = Mapper.Map<IEnumerable<RentedCarDto>>(result.Data);
+                return Ok(car);
+            }
+            return NotFound();
+        }
     }
 }
