@@ -52,5 +52,22 @@ namespace BuisnessLayer.CarAppService.Implementation
                 return new OperationResult<UserDomain>(result, false, message);
             }
         }
+
+        public async Task<OperationResult<UserDomain>> GetUserWithDetails(string email, string password)
+        {
+            OperationResult<User> user = await UnitOfWork.UserRepository.GetByDetailsAsync(email, password);
+            UserDomain result = null;
+            if (user.Data != null && user.IsSuccess)
+            {
+                result = Mapper.Map<UserDomain>(user.Data);
+                Message message = new Message(string.Empty, user.MainMessage.Text);
+                return new OperationResult<UserDomain>(result, true, message);
+            }
+            else
+            {
+                Message message = new Message(string.Empty, "Invalid Credentials");
+                return new OperationResult<UserDomain>(result, false, message);
+            }
+        }
     }
 }

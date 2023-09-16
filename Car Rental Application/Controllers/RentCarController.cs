@@ -3,6 +3,7 @@ using BuisnessLayer.CarAppService.Implementation;
 using BuisnessLayer.CarAppService.Interface;
 using BuisnessLayer.Domain;
 using Car_Rental_Application.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SharedLayer.Core.ValueObjects;
 
@@ -25,6 +26,7 @@ namespace Car_Rental_Application.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<RentedCarDto>>> Get()
         {
             OperationResult<IEnumerable<RentedCarDomain>> result = await RentedCarService.GetAllRentedCarsAsync();
@@ -33,6 +35,7 @@ namespace Car_Rental_Application.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> Post(RentedCarDto car)
         {
             if (car == null)
@@ -49,6 +52,7 @@ namespace Car_Rental_Application.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [Authorize]
         public async Task<ActionResult<RentedCarDto>> Get([FromRoute] int id)
         {
             OperationResult<RentedCarDomain> result = await RentedCarService.GetRentedCarByIdAsync(id);
@@ -60,6 +64,7 @@ namespace Car_Rental_Application.Controllers
             return NotFound();
         }
         [HttpGet("/api/[controller]/[action]/{id:int}")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<RentedCarDto>>> GetByCarId([FromRoute] int id)
         {
             OperationResult<IEnumerable<RentedCarDomain>> result = await RentedCarService.GetRentedCarByCarIdAsync(id);
@@ -72,6 +77,7 @@ namespace Car_Rental_Application.Controllers
         }
 
         [HttpGet("/api/[controller]/[action]/{id:int}")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<RentedCarDto>>> GetByUserId([FromRoute] int id)
         {
             OperationResult<IEnumerable<RentedCarDomain>> result = await RentedCarService.GetRentedCarByUserIdAsync(id);

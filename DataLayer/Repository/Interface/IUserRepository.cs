@@ -13,5 +13,7 @@ namespace DataLayer.Repository.Interface
     {
         Task<OperationResult<IEnumerable<User>>> GetAllAsync();
         Task<OperationResult<User>> GetByIdAsync(int id);
+        Task<OperationResult<User>> GetByDetailsAsync(string email, string password);
+
     }
 }

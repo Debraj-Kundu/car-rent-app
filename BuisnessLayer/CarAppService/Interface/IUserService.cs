@@ -12,5 +12,6 @@ namespace BuisnessLayer.CarAppService.Interface
     {
         Task<OperationResult<IEnumerable<UserDomain>>> GetAllUsersAsync();
         Task<OperationResult<UserDomain>> GetUserByIdAsync(int id);
+        Task<OperationResult<UserDomain>> GetUserWithDetails(string email, string password);
     }
 }

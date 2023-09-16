@@ -2,6 +2,7 @@
 using BuisnessLayer.CarAppService.Interface;
 using BuisnessLayer.Domain;
 using Car_Rental_Application.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SharedLayer.Core.ValueObjects;
 
@@ -44,6 +45,7 @@ namespace Car_Rental_Application.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Post(CarDto car)
         {
             if (car == null)
@@ -60,6 +62,7 @@ namespace Car_Rental_Application.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Put(int id, CarDto car)
         {
             car.Id = id;
@@ -71,6 +74,7 @@ namespace Car_Rental_Application.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(int id)
         {
             var result = await CarService.RemoveCarAsync(id);

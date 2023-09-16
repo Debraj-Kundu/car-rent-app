@@ -4,6 +4,10 @@ using SharedLayer.Core.ExceptionManagement;
 using AutoMapper;
 using BuisnessLayer.Mapper;
 using FinalTest.WebAPI.Mapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using WebAPI.DTO;
 
 namespace Car_Rental_Application
 {
@@ -29,6 +33,32 @@ namespace Car_Rental_Application
             services.AddScoped(sp => MapperConfiguration.CreateMapper());
 
             services.RegisterServices(Configuration.GetConnectionString("DefaultConnection"));
+
+            var _jwtsetting = Configuration.GetSection("JWTSetting");
+            services.Configure<JWTSetting>(_jwtsetting);
+
+            var authkey = Configuration.GetValue<string>("JWTSetting:securitykey");
+
+            services.AddAuthentication(item =>
+            {
+                item.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                item.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(item =>
+            {
+
+                item.RequireHttpsMetadata = true;
+                item.SaveToken = true;
+                item.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authkey)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
+
             services.AddMvc().AddNewtonsoftJson(s =>
             {
                 s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -48,6 +78,14 @@ namespace Car_Rental_Application
             }
 
             app.UseRouting();
+
+            app.UseCors(builder =>
+            {
+                builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
 
             app.UseAuthentication();
 

@@ -39,5 +39,14 @@ namespace DataLayer.Repository.Implementation
             Message message = new Message(string.Empty, "Return Successfully");
             return new OperationResult<User>(result, true, message);
         }
+
+        public async Task<OperationResult<User>> GetByDetailsAsync(string email, string password)
+        {
+            var result = await Context.Users.Where(
+                e => e.Email.Equals(email) && e.Password.Equals(password)
+                ).FirstOrDefaultAsync();
+            Message message = new Message(string.Empty, "Return Successfully");
+            return new OperationResult<User>(result, true, message);
+        }
     }
 }
