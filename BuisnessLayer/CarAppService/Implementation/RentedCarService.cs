@@ -138,5 +138,23 @@ namespace BuisnessLayer.CarAppService.Implementation
             }
         }
 
+        public async Task<OperationResult> UpdateRentedCarAsync(RentedCarDomain car)
+        {
+            RentedCar carEntity = Mapper.Map<RentedCar>(car);
+            await UnitOfWork.RentedCarRepository.UpdateAsync(carEntity);
+
+            OperationResult result = await UnitOfWork.Commit();
+
+            return new OperationResult(result.IsSuccess, result.MainMessage);
+        }
+
+        public async Task<OperationResult> RemoveRentedCarAsync(int id)
+        {
+            UnitOfWork.RentedCarRepository.Delete(id);
+            Message message = new Message(string.Empty, "Deleted Successfully");
+            await UnitOfWork.Commit();
+            return new OperationResult(true, message);
+        }
+
     }
 }

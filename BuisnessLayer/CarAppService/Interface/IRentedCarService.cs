@@ -15,7 +15,7 @@ namespace BuisnessLayer.CarAppService.Interface
         Task<OperationResult> CreateRentedCarAsync(RentedCarDomain car);
         Task<OperationResult<IEnumerable<RentedCarDomain>>> GetRentedCarByUserIdAsync(int id);
         Task<OperationResult<IEnumerable<RentedCarDomain>>> GetRentedCarByCarIdAsync(int id);
-        //Task<OperationResult> UpdateCarAsync(CarDomain car);
-        //Task<OperationResult> RemoveCarAsync(int id);
+        Task<OperationResult> UpdateRentedCarAsync(RentedCarDomain car);
+        Task<OperationResult> RemoveRentedCarAsync(int id);
     }
 }
