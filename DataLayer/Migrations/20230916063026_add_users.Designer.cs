@@ -4,6 +4,7 @@ using DataLayer.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(CarDomainDbContext))]
-    partial class CarDomainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230916063026_add_users")]
+    partial class add_users
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,30 +61,30 @@ namespace DataLayer.Migrations
                         {
                             Id = 1,
                             AvailabilityStatus = true,
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 31, 9, 587, DateTimeKind.Unspecified).AddTicks(3911), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 30, 26, 760, DateTimeKind.Unspecified).AddTicks(4063), new TimeSpan(0, 0, 0, 0, 0)),
                             Maker = "Maruti",
                             Model = "Swift Desire",
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 31, 9, 587, DateTimeKind.Unspecified).AddTicks(3911), new TimeSpan(0, 0, 0, 0, 0)),
+                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 30, 26, 760, DateTimeKind.Unspecified).AddTicks(4063), new TimeSpan(0, 0, 0, 0, 0)),
                             RentalPrice = 58000m
                         },
                         new
                         {
                             Id = 2,
                             AvailabilityStatus = true,
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 31, 9, 587, DateTimeKind.Unspecified).AddTicks(3916), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 30, 26, 760, DateTimeKind.Unspecified).AddTicks(4065), new TimeSpan(0, 0, 0, 0, 0)),
                             Maker = "Hyundai",
                             Model = "i20",
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 31, 9, 587, DateTimeKind.Unspecified).AddTicks(3917), new TimeSpan(0, 0, 0, 0, 0)),
+                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 30, 26, 760, DateTimeKind.Unspecified).AddTicks(4065), new TimeSpan(0, 0, 0, 0, 0)),
                             RentalPrice = 64000m
                         },
                         new
                         {
                             Id = 3,
                             AvailabilityStatus = true,
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 31, 9, 587, DateTimeKind.Unspecified).AddTicks(3920), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 30, 26, 760, DateTimeKind.Unspecified).AddTicks(4067), new TimeSpan(0, 0, 0, 0, 0)),
                             Maker = "Maruti",
                             Model = "Alto",
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 31, 9, 587, DateTimeKind.Unspecified).AddTicks(3920), new TimeSpan(0, 0, 0, 0, 0)),
+                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 30, 26, 760, DateTimeKind.Unspecified).AddTicks(4067), new TimeSpan(0, 0, 0, 0, 0)),
                             RentalPrice = 46000m
                         });
                 });
@@ -163,9 +165,9 @@ namespace DataLayer.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 31, 9, 587, DateTimeKind.Unspecified).AddTicks(3801), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 30, 26, 760, DateTimeKind.Unspecified).AddTicks(3971), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "user1@user.com",
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 31, 9, 587, DateTimeKind.Unspecified).AddTicks(3801), new TimeSpan(0, 0, 0, 0, 0)),
+                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 30, 26, 760, DateTimeKind.Unspecified).AddTicks(3972), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "UserOne",
                             Password = "User@123",
                             Role = "User"
@@ -173,9 +175,9 @@ namespace DataLayer.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 31, 9, 587, DateTimeKind.Unspecified).AddTicks(3803), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 30, 26, 760, DateTimeKind.Unspecified).AddTicks(3974), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "user2@user.com",
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 31, 9, 587, DateTimeKind.Unspecified).AddTicks(3804), new TimeSpan(0, 0, 0, 0, 0)),
+                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 30, 26, 760, DateTimeKind.Unspecified).AddTicks(3974), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "UserTwo",
                             Password = "User@123",
                             Role = "User"
@@ -183,9 +185,9 @@ namespace DataLayer.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 31, 9, 587, DateTimeKind.Unspecified).AddTicks(3806), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 30, 26, 760, DateTimeKind.Unspecified).AddTicks(3976), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "user3@user.com",
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 31, 9, 587, DateTimeKind.Unspecified).AddTicks(3806), new TimeSpan(0, 0, 0, 0, 0)),
+                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 30, 26, 760, DateTimeKind.Unspecified).AddTicks(3976), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "UserThree",
                             Password = "User@123",
                             Role = "User"
@@ -193,9 +195,9 @@ namespace DataLayer.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 31, 9, 587, DateTimeKind.Unspecified).AddTicks(3809), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 30, 26, 760, DateTimeKind.Unspecified).AddTicks(3978), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "admin1@admin.com",
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 31, 9, 587, DateTimeKind.Unspecified).AddTicks(3809), new TimeSpan(0, 0, 0, 0, 0)),
+                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 30, 26, 760, DateTimeKind.Unspecified).AddTicks(3978), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "AdminOne",
                             Password = "Admin@123",
                             Role = "Admin"
@@ -203,10 +205,10 @@ namespace DataLayer.Migrations
                         new
                         {
                             Id = 5,
-                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 31, 9, 587, DateTimeKind.Unspecified).AddTicks(3814), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 30, 26, 760, DateTimeKind.Unspecified).AddTicks(3980), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "admin2@admin.com",
-                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 31, 9, 587, DateTimeKind.Unspecified).AddTicks(3814), new TimeSpan(0, 0, 0, 0, 0)),
-                            Name = "AdminTwo",
+                            ModifiedOnDate = new DateTimeOffset(new DateTime(2023, 9, 16, 6, 30, 26, 760, DateTimeKind.Unspecified).AddTicks(3980), new TimeSpan(0, 0, 0, 0, 0)),
+                            Name = "AdminOne",
                             Password = "Admin@123",
                             Role = "Admin"
                         });

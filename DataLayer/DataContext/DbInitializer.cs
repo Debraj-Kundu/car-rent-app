@@ -20,7 +20,11 @@ namespace DataLayer.DataContext
         public void Seed()
         {
             modelBuilder.Entity<User>().HasData(
-                   new User() { Id = 1, Name = "UserOne", Email = "user1@user.com", Password = "User@123", Role = "User", CreatedOnDate = DateTimeOffset.UtcNow, ModifiedOnDate = DateTimeOffset.UtcNow }
+                   new User() { Id = 1, Name = "UserOne", Email = "user1@user.com", Password = "User@123", Role = "User", CreatedOnDate = DateTimeOffset.UtcNow, ModifiedOnDate = DateTimeOffset.UtcNow },
+                   new User() { Id = 2, Name = "UserTwo", Email = "user2@user.com", Password = "User@123", Role = "User", CreatedOnDate = DateTimeOffset.UtcNow, ModifiedOnDate = DateTimeOffset.UtcNow },
+                   new User() { Id = 3, Name = "UserThree", Email = "user3@user.com", Password = "User@123", Role = "User", CreatedOnDate = DateTimeOffset.UtcNow, ModifiedOnDate = DateTimeOffset.UtcNow },
+                   new User() { Id = 4, Name = "AdminOne", Email = "admin1@admin.com", Password = "Admin@123", Role = "Admin", CreatedOnDate = DateTimeOffset.UtcNow, ModifiedOnDate = DateTimeOffset.UtcNow },
+                   new User() { Id = 5, Name = "AdminTwo", Email = "admin2@admin.com", Password = "Admin@123", Role = "Admin", CreatedOnDate = DateTimeOffset.UtcNow, ModifiedOnDate = DateTimeOffset.UtcNow }
             );
             modelBuilder.Entity<Car>().HasData(
                 new Car() { Id = 1, Maker = "Maruti", Model = "Swift Desire", RentalPrice = 58000, AvailabilityStatus = true, CreatedOnDate = DateTimeOffset.UtcNow, ModifiedOnDate = DateTimeOffset.UtcNow },

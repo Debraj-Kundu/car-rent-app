@@ -12,14 +12,16 @@ namespace DataLayer.UoW
 {
     public class CarUnitOfWork : UnitOfWork, ICarUnitOfWork
     {
-        public CarUnitOfWork(CarDomainDbContext context, ICarRepository carRepository, IRentedCarRepository rentedCarRepository, IExceptionManager exceptionManager) : base(context, exceptionManager)
+        public CarUnitOfWork(CarDomainDbContext context, ICarRepository carRepository, IRentedCarRepository rentedCarRepository, IUserRepository userRepository, IExceptionManager exceptionManager) : base(context, exceptionManager)
         {
             CarRepository = carRepository;
             RentedCarRepository = rentedCarRepository;
+            UserRepository = userRepository;
         }
 
         public ICarRepository CarRepository { get; }
         public IRentedCarRepository RentedCarRepository { get; }
+        public IUserRepository UserRepository { get; }
 
     }
 }

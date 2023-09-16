@@ -12,5 +12,6 @@ namespace DataLayer.UoW
     {
         ICarRepository CarRepository { get; }
         IRentedCarRepository RentedCarRepository { get; }
+        IUserRepository UserRepository { get; }
     }
 }
