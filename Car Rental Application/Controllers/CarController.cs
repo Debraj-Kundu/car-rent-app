@@ -74,8 +74,16 @@ namespace Car_Rental_Application.Controllers
 
         [HttpPut("{id:int}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Put(int id, CarDto car)
+        public async Task<ActionResult> Put(int id, [FromForm]CarDto car)
         {
+            if (car.ImageFile != null)
+            {
+                var fileResult = FileService.SaveImage(car.ImageFile);
+                if (fileResult.Item1 == 1)
+                {
+                    car.CarImage = fileResult.Item2;
+                }
+            }
             car.Id = id;
             var carDomain = Mapper.Map<CarDomain>(car);
             var result = await CarService.UpdateCarAsync(carDomain);

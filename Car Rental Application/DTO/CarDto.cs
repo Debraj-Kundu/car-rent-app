@@ -9,16 +9,16 @@ namespace Car_Rental_Application.DTO
         //public string VehicalId { get; set; }
 
         //[Required]
-        public string Maker { get; set; }
+        public string? Maker { get; set; }
 
         //[Required]
-        public string Model { get; set; }
+        public string? Model { get; set; }
 
         //[Required]
-        public decimal RentalPrice { get; set; }
+        public decimal? RentalPrice { get; set; }
 
         //[Required]
-        public bool AvailabilityStatus { get; set; }
+        public bool? AvailabilityStatus { get; set; }
         public string? CarImage { get; set; }
 
         public IFormFile? ImageFile { get; set; }
