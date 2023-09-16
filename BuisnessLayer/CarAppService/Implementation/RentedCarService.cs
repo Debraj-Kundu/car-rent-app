@@ -7,6 +7,7 @@ using SharedLayer.Core.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,18 +23,46 @@ namespace BuisnessLayer.CarAppService.Implementation
             UnitOfWork = unitOfWork;
             Mapper = mapper;
         }
+        private async Task<bool> Available(int carId, RentedCar carToCreate)
+        {
+            var result = await GetRentedCarByCarIdAsync(carId);
+            var rents = result.Data.OrderBy(rc => rc.DateRented).ToList();
+            /*
+             * 15 - 17 , 25-30 | 21-24,
+             */
+            if (carToCreate.DateRented == DateTimeOffset.Now && carToCreate.DateReturn < rents[0].DateRented)
+            {
+                return true;
+            }
+            if(carToCreate.DateRented > rents[rents.Count - 1].DateReturn)
+            {
+                return true;
+            }
+            for (int i = 1; i < rents.Count; i++)
+            {
+                if (carToCreate.DateRented > rents[i-1].DateReturn && carToCreate.DateReturn < rents[i].DateRented)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public async Task<OperationResult> CreateRentedCarAsync(RentedCarDomain car)
         {
             RentedCar carToCreate = Mapper.Map<RentedCarDomain, RentedCar>(car);
-            carToCreate.CreatedOnDate = DateTimeOffset.Now;
-            
-            decimal days = (decimal)carToCreate.DateReturn.Subtract(carToCreate.DateRented).TotalDays;
-            
-            var price = (await GetCarDetails(car.CarId)).RentalPrice;
-            carToCreate.TotalCost = price * days;
 
-            await UnitOfWork.RentedCarRepository.AddAsync(carToCreate);
-            car.Id = carToCreate.Id;
+            if (Available(car.CarId, carToCreate).Result)
+            {
+                carToCreate.CreatedOnDate = DateTimeOffset.Now;
+
+                decimal days = (decimal)carToCreate.DateReturn.Subtract(carToCreate.DateRented).TotalDays;
+
+                var price = (await GetCarDetails(car.CarId)).RentalPrice;
+                carToCreate.TotalCost = price * days;
+
+                await UnitOfWork.RentedCarRepository.AddAsync(carToCreate);
+                car.Id = carToCreate.Id;
+            }
             OperationResult result = await UnitOfWork.Commit();
             return new OperationResult(result.IsSuccess, result.MainMessage);
         }
