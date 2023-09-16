@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebAPI.DTO;
+using WebAPI.Service;
+using Microsoft.Extensions.FileProviders;
 
 namespace Car_Rental_Application
 {
@@ -33,6 +35,8 @@ namespace Car_Rental_Application
             services.AddScoped(sp => MapperConfiguration.CreateMapper());
 
             services.RegisterServices(Configuration.GetConnectionString("DefaultConnection"));
+
+            services.AddScoped<IFileService, FileService>();
 
             var _jwtsetting = Configuration.GetSection("JWTSetting");
             services.Configure<JWTSetting>(_jwtsetting);
@@ -76,6 +80,11 @@ namespace Car_Rental_Application
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Uploads")),
+                RequestPath = "/Resources"
+            });
 
             app.UseRouting();
 

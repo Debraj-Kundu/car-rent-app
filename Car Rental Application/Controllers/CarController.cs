@@ -5,6 +5,7 @@ using Car_Rental_Application.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SharedLayer.Core.ValueObjects;
+using WebAPI.Service;
 
 namespace Car_Rental_Application.Controllers
 {
@@ -13,15 +14,17 @@ namespace Car_Rental_Application.Controllers
     public class CarController : ControllerBase
     {
         public ICarService CarService { get; }
-
+        public IFileService FileService { get; }
         public IMapper Mapper { get; }
         public SharedLayer.Core.Logging.ILogger Logger { get; }
 
-        public CarController(ICarService carService, IMapper mapper, SharedLayer.Core.Logging.ILogger logger)
+        public CarController(ICarService carService, IMapper mapper, IFileService fileService,
+        SharedLayer.Core.Logging.ILogger logger)
         {
             CarService = carService;
             Mapper = mapper;
             Logger = logger;
+            FileService = fileService;
         }
 
         [HttpGet]
@@ -46,15 +49,23 @@ namespace Car_Rental_Application.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Post(CarDto car)
+        public async Task<ActionResult> Post([FromForm]CarDto car)
         {
+            if (car.ImageFile != null)
+            {
+                var fileResult = FileService.SaveImage(car.ImageFile);
+                if (fileResult.Item1 == 1)
+                {
+                    car.CarImage = fileResult.Item2;
+                }
+            }
             if (car == null)
             {
                 return BadRequest();
             }
             CarDomain carToCreate = Mapper.Map<CarDomain>(car);
             var result = await CarService.CreateCarAsync(carToCreate);
-            if(result.IsSuccess)
+            if (result.IsSuccess)
             {
                 return Created(nameof(Post), car);
             }
@@ -68,7 +79,7 @@ namespace Car_Rental_Application.Controllers
             car.Id = id;
             var carDomain = Mapper.Map<CarDomain>(car);
             var result = await CarService.UpdateCarAsync(carDomain);
-            if(result.IsSuccess)
+            if (result.IsSuccess)
                 return Created(nameof(Put), car);
             return BadRequest(result.MainMessage.Text);
         }

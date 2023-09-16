@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SharedLayer.Domain;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,6 @@ namespace DataLayer.Entity
 {
     public class Car : DomainBase
     {
-        //[Required]
-        //public string VehicalId { get; set; }
-
         [Required]
         public string Maker { get; set; }
 
@@ -24,6 +22,8 @@ namespace DataLayer.Entity
         [Column(TypeName = "decimal(18,4)")]
         [Required]
         public decimal RentalPrice { get; set; }
+
+        public string? CarImage { get; set; }
 
         [Required]
         public bool AvailabilityStatus { get; set; }

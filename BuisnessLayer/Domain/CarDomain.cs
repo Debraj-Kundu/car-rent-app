@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace BuisnessLayer.Domain
 {
@@ -18,7 +19,7 @@ namespace BuisnessLayer.Domain
         public string Model { get; set; }
 
         public decimal RentalPrice { get; set; }
-
+        public string? CarImage { get; set; }
         public bool AvailabilityStatus { get; set; }
         public ICollection<RentedCarDomain>? RentedCarDomain { get; set; }
     }
