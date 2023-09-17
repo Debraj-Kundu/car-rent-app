@@ -65,27 +65,22 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.productForm = this.fb.group({
-      name: new FormControl('', {
+      maker: new FormControl('', {
         validators: [
           Validators.required,
           Validators.maxLength(100),
           Validators.pattern('^[a-zA-Z0-9 ]+$'),
         ],
       }),
-      description: new FormControl('', {
+      model: new FormControl('', {
         validators: [
           Validators.required,
           Validators.maxLength(255),
           Validators.pattern('^[a-zA-Z0-9 ]+$'),
         ],
       }),
-      price: new FormControl('', { validators: [Validators.required] }),
-      discount: new FormControl(''),
-      availableQuantity: new FormControl('', {
-        validators: [Validators.required],
-      }),
-      image: new FormControl('', { validators: [Validators.required] }),
-      specification: new FormControl(''),
+      rentalPrice: new FormControl('', { validators: [Validators.required] }),
+      carImage: new FormControl('', { validators: [Validators.required] }),
       id: new FormControl(this.id),
     });
   }

@@ -46,28 +46,23 @@ export class EditProductComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
   ) {
     this.productForm = this.fb.group({
-      name: new FormControl('', {
+      maker: new FormControl('', {
         validators: [
           Validators.required,
           Validators.maxLength(100),
           Validators.pattern('^[a-zA-Z0-9 ]+$'),
         ],
       }),
-      description: new FormControl('', {
+      model: new FormControl('', {
         validators: [
           Validators.required,
           Validators.maxLength(255),
           Validators.pattern('^[a-zA-Z0-9 ]+$'),
         ],
       }),
-      price: new FormControl('', { validators: [Validators.required] }),
-      discount: new FormControl('', { validators: [Validators.required] }),
-      availableQuantity: new FormControl('', {
-        validators: [Validators.required],
-      }),
+      rentalPrice: new FormControl('', { validators: [Validators.required] }),
       imageFile: new FormControl(''), //, { validators: [Validators.required] }
-      productImage: new FormControl(''),
-      specification: new FormControl(''),
+      carImage: new FormControl(''),
       id: new FormControl(this.id),
     });
   }
