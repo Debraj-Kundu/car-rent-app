@@ -1,0 +1,83 @@
+<!-- {{ product$ | async | json }} -->
+
+<div class="d-flex justify-content-evenly mt-4">
+  <div class="wrapper">
+    <div class="card radius shadowDepth1">
+      <div class="card__image border-tlr-radius">
+        <img
+          [src]="imageBaseUrl + (product$ | async)?.carImage"
+          alt="image"
+          class="border-tlr-radius"
+          height="300"
+          width="300"
+        />
+      </div>
+
+      <div class="card__content card__padding">
+        <div class="card__share">
+          <div class="card__social"></div>
+          <button
+            *ngIf="isLoggedIn == true"
+            mat-fab
+            color="primary"
+            type="submit"
+            (click)="addToCart()"
+          >
+            <mat-icon>shopping_cart</mat-icon>
+          </button>
+        </div>
+        <div class="d-flex">
+          <div>
+            <h1>{{ (product$ | async)?.maker }}</h1>
+            <p>
+              {{ (product$ | async)?.model }}
+            </p>
+            <div
+              class="d-flex flex-column justify-content-between"
+              *ngIf="product$ | async as product"
+            >
+              <div class="curr-price">
+                {{
+                  product.rentalPrice
+                    | currency : "INR"
+                }}
+              </div>
+
+              <div class="d-flex justify-content-between">
+
+                <div class="cut">
+                  <del>{{ (product$ | async)?.rentalPrice | currency : "INR" }} </del>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="product$ | async as product">
+          <div
+            *ngIf="isLoggedIn == true"
+            class="d-flex justify-content-evenly"
+          >
+            <div class="btn-wrapper">
+              <button mat-button class="plusminus" (click)="increase()">
+                <mat-icon>add</mat-icon>
+              </button>
+
+              <span class="num">{{ quantity }}</span>
+
+              <button mat-button class="plusminus" (click)="decrease()">
+                <mat-icon>remove</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="product$ | async as product">
+          <div *ngIf="isLoggedIn == true">
+            <h2>Out of stock</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,120 @@
+<!-- <div *ngFor="let item of productsList$ | async">
+  <ul>
+    {{
+      item | json
+    }}
+  </ul>
+</div> -->
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-6 col-12">
+      <mat-form-field appearance="outline">
+        <mat-label>Category</mat-label>
+        <mat-select [(value)]="selected" (valueChange)="valueChange(selected)">
+          <mat-option>None</mat-option>
+          <!-- <mat-option *ngFor="let food of categoryList$ | async" [value]="food">
+            {{ food.name }}
+          </mat-option> -->
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6 col-8">
+      <form [formGroup]="searchBox">
+        <mat-form-field appearance="outline">
+          <mat-label>Find</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="search"
+            autocomplete="autocomplete_off_randString"
+            (input)="filterByName()"
+          />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+</div>
+<div></div>
+<div class="container mat-elevation-z8 mb-5">
+  <table mat-table matSort [dataSource]="tableData$ | async">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <h2>Maker</h2>
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [routerLink]="['/product', element.id]"
+      >
+        <b>{{ element.maker }}</b>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef><h2>Model</h2></th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [routerLink]="['/product', element.id]"
+      >
+        {{ element.model }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header><h2>Price</h2></th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [routerLink]="['/product', element.id]"
+      >
+        {{ element.rentalPrice | currency : "INR" }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="image">
+      <th mat-header-cell *matHeaderCellDef><h2>Image</h2></th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [routerLink]="['/product', element.id]"
+      >
+        <img
+          style="height: 100px; width: 100px"
+          [src]="imageBaseUrl + element.carImage"
+          alt=""
+        />
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef><h2>Action</h2></th>
+      <td mat-cell *matCellDef="let element">
+        <div class="d-flex justify-content-evenly">
+          <button
+            mat-mini-fab
+            color="primary"
+            class="edit-btn"
+            [routerLink]="['/edit/', element.id]"
+          >
+            <mat-icon aria-hidden="false" fontIcon="edit"> </mat-icon>
+          </button>
+          <button
+            mat-mini-fab
+            color="accent"
+            class="delete-btn"
+            (click)="deleteProduct(element.id)"
+          >
+            <mat-icon aria-hidden="false" fontIcon="delete"> </mat-icon>
+          </button>
+        </div>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+  </table>
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Select pages"
+  >
+  </mat-paginator>
+</div>

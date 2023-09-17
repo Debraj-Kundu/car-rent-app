@@ -86,6 +86,8 @@ namespace Car_Rental_Application
                 RequestPath = "/Resources"
             });
 
+            app.UseHttpsRedirection();
+
             app.UseRouting();
 
             app.UseCors(builder =>

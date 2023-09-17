@@ -1,0 +1,53 @@
+
+<div style="overflow-y: auto; position: relative; height: 80vh" >
+  <h2 class="cart-msg" *ngIf="(cartList$ | async)?.length === 0">No Items in Cart</h2>
+  <div
+    *ngFor="let item of cartList$ | async"
+    class="container mt-3 d-flex justify-content-center"
+  >
+    <mat-card
+      class="order-card p-2 mb-4"
+      [ngClass]="{'selected-card':selectedProdId === item.carDto.id}"
+      (click)="setId(item.carDto.id, item.id)"
+    >
+      <mat-card-content class="d-flex flex-row justify-content-between">
+        <img
+          [src]="imageBaseUrl + item.carDto.carImage"
+          height="150"
+          width="150"
+        />
+        <div class="d-flex flex-column">
+          <div>
+            <h2>{{ item.carDto.maker }}</h2>
+          </div>
+          <div>
+            <h3>Quantity: {{ item.carDto.model }}</h3>
+          </div>
+          <div>
+            <h3>
+              Bill: {{item.totalCost  | currency : "INR" }}
+            </h3>
+          </div>
+        </div>
+        <div class="d-flex align-items-center">
+          <button
+            mat-fab
+            color="primary"
+            class="delete-btn"
+            (click)="deleteCart(item.id)"
+          >
+            <mat-icon
+              aria-hidden="false"
+              aria-label="Example home icon"
+              fontIcon="delete"
+            >
+            </mat-icon>
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<button [disabled]="selectedCartId === 0" mat-raised-button color="primary" (click)="placeOrder()">
+  Place Order
+</button>
