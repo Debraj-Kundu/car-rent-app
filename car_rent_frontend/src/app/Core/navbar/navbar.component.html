@@ -17,11 +17,11 @@
     <div class="d-none d-md-block">
       <ng-container *ngIf="isLoggedIn == true">
         <button mat-button [routerLink]="['/agreement']">Rental Agreement</button>
-        <button mat-button [routerLink]="['/order']">Rented Cars</button>
+        <button mat-button [routerLink]="['/rented-car']">Rented Cars</button>
       </ng-container>
       <ng-container *ngIf="isLoggedIn == true && userRole == 'Admin'">
         <button mat-button [routerLink]="['/add']">Add Car</button>
-        <button mat-button [routerLink]="['/order']">All Rents</button>
+        <!-- <button mat-button [routerLink]="['/order']">All Rents</button> -->
       </ng-container>
     </div>
   </div>

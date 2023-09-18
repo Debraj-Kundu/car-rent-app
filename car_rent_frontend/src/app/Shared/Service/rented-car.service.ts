@@ -7,10 +7,11 @@ import { Observable } from 'rxjs';
 import { RentedCar } from '../Interface/RentedCar.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RentedCarService {
   id!: string;
+  role!: string;
   constructor(
     private http: HttpClient,
     private loginService: LoginService,
@@ -25,8 +26,18 @@ export class RentedCarService {
     });
   }
 
+  private getUserRole() {
+    const roleFromToken = this.loginService.getRoleFromToken();
+    this.userStore.getRoleFormStore().subscribe((val) => {
+      this.role = val || roleFromToken;
+    });
+  }
+
   getRentedCars(): Observable<RentedCar[]> {
     this.getUserId();
+    this.getUserRole();
+    if (this.role === 'Admin')
+      return this.http.get<RentedCar[]>(`${this.apiurl}`);
     return this.http.get<RentedCar[]>(`${this.apiurl}/getbyuserid/${this.id}`);
   }
 }

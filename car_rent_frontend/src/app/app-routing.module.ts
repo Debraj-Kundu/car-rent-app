@@ -32,7 +32,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'order',
+    path: 'rented-car',
     loadComponent: () =>
       import('./Views/order/order.component').then((c) => c.OrderComponent),
     canActivate: [AuthGuard],
