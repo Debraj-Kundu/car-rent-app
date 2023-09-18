@@ -1,27 +1,23 @@
-<!-- {{ item | json }} -->
-<div *ngFor="let item of orderList$ | async" class="container mt-3 d-flex justify-content-center">
-  <mat-card class="order-card p-2 mb-4">
+<div *ngFor="let item of orderList$ | async " class="container mt-3 d-flex justify-content-center">
+  <mat-card class="order-card p-2 mb-4" *ngIf="item as RentedCar">
     <mat-card-content class="d-flex flex-row justify-content-between">
       <img
-        [src]="imageBaseUrl + item.carDto.carImage"
+        [src]="imageBaseUrl + RentedCar.carDto.carImage"
         height="150"
         width="150"
       />
       <div class="d-flex flex-column">
         <div>
-          <h2>{{ item.carDto.maker }}</h2>
-        </div>
-        <div>
-          <!-- <h3>Quantity: {{ item.quantity }}</h3> -->
+          <h2>{{ RentedCar.carDto.maker }}</h2>
         </div>
         <div>
           <h3>
-            Bill: {{ item.totalCost | currency : "INR" }}
+            Bill: {{ RentedCar.totalCost | currency : "INR" }}
           </h3>
         </div>
       </div>
       <div>
-        {{ item.dateRented | date }}
+        {{ RentedCar.dateRented | date }}
       </div>
     </mat-card-content>
   </mat-card>

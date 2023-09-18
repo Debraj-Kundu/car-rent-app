@@ -101,12 +101,12 @@ export class RentalAgreementComponent implements OnInit, OnDestroy {
       this.bookCar.bookCar(agreement).subscribe({
         next: (res) => {
           this.toast.successToast('Booked successfully!');
+          this.router.navigate(['/order']);
         },
         error: (err) => {
           this.toast.errorToast('Car is booked try other date');
         },
       });
-      this.router.navigate(['/order']);
     }
   }
   ngOnDestroy(): void {

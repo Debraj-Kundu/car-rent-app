@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OrderService } from 'src/app/Shared/Service/order.service';
 import { Observable } from 'rxjs';
 import { RentedCar } from 'src/app/Shared/Interface/RentedCar.interface';
 import { MatCardModule } from '@angular/material/card';
+import { RentedCarService } from 'src/app/Shared/Service/rented-car.service';
 
 @Component({
   selector: 'app-order',
@@ -13,7 +13,7 @@ import { MatCardModule } from '@angular/material/card';
   styleUrls: ['./order.component.css'],
 })
 export class OrderComponent {
-  imageBaseUrl = 'https://localhost:5253/resources/';
-  constructor(private orderService: OrderService) {}
-  orderList$: Observable<RentedCar[]> = this.orderService.getOrder();
+  imageBaseUrl = 'http://localhost:5253/resources/';
+  constructor(private rentedCarService: RentedCarService) {}
+  orderList$: Observable<RentedCar[]> = this.rentedCarService.getRentedCars();
 }
