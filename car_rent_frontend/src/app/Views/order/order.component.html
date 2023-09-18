@@ -11,14 +11,31 @@
           <h2>{{ RentedCar.carDto.maker }}</h2>
         </div>
         <div>
-          <h3>
+          <h3 class="curr-price">
             Bill: {{ RentedCar.totalCost | currency : "INR" }}
           </h3>
         </div>
       </div>
-      <div>
+      <div class="curr-price">
         {{ RentedCar.dateRented | date }}
       </div>
+      <p> - </p>
+      <div class="cut">
+        {{ RentedCar.dateReturn | date }}
+      </div>
     </mat-card-content>
+    <div>
+      <mat-card-footer>
+        <div class="d-md-flex m-2 pb-3 justify-content-evenly">
+          <button
+          mat-raised-button
+          color="warn"
+          type="button"
+          >
+            Return
+          </button>
+        </div>
+      </mat-card-footer>
+    </div>
   </mat-card>
 </div>

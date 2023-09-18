@@ -10,6 +10,7 @@ using System.Text;
 using WebAPI.DTO;
 using WebAPI.Service;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.OpenApi.Models;
 
 namespace Car_Rental_Application
 {
@@ -72,6 +73,16 @@ namespace Car_Rental_Application
             services.AddScoped<SharedLayer.Core.Logging.ILogger, SharedLayer.Core.Logging.Logger>();
             services.AddScoped<IExceptionManager, ExceptionManager>();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "MyAPI",
+                    Description = "ASP.NET Core API"
+                });
+            });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -85,7 +96,13 @@ namespace Car_Rental_Application
                 FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Uploads")),
                 RequestPath = "/Resources"
             });
+            app.UseSwagger();
 
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyAPI");
+                c.RoutePrefix = string.Empty;
+            });
             app.UseHttpsRedirection();
 
             app.UseRouting();

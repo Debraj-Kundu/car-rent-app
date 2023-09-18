@@ -12,8 +12,8 @@
     "Car_Rental_Application": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": false,
-      "launchUrl": "api/car",
+      "launchBrowser": true,
+      "launchUrl": "index.html",
       "applicationUrl": "http://localhost:5253",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
