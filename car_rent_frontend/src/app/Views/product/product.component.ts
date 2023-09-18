@@ -84,19 +84,8 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.product$.subscribe({
         next: (res) => {
-          // productId = res;
           localStorage.setItem('selected-car', JSON.stringify(res));
           this.router.navigate(['/agreement']);
-          this.toast.successToast('Added to cart');
-          // this.cartService
-          //   .postCart({ productId, quantity: this.quantity })
-          //   .subscribe({
-          //     next: (res) => {
-          //     },
-          //     error: (err) => {
-          //       this.toast.errorToast('Error occured');
-          //     },
-          //   });
         },
         error: (err) => {
           this.toast.errorToast('Error occured');

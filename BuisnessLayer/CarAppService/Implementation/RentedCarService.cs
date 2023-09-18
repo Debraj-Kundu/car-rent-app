@@ -26,10 +26,16 @@ namespace BuisnessLayer.CarAppService.Implementation
         private async Task<bool> Available(int carId, RentedCar carToCreate)
         {
             var result = await GetRentedCarByCarIdAsync(carId);
+            
             var rents = result.Data.OrderBy(rc => rc.DateRented).ToList();
+            if(!rents.Any())
+            {
+                return true;
+            }
             /*
              * 15 - 17 , 25-30 | 21-24,
              */
+            
             if (carToCreate.DateRented == DateTimeOffset.Now && carToCreate.DateReturn < rents[0].DateRented)
             {
                 return true;

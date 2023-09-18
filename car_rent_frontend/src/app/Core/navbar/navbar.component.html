@@ -16,7 +16,7 @@
     <div class="ms-md-5 logo" [routerLink]="['/home']">CarRentKaro.com</div>
     <div class="d-none d-md-block">
       <ng-container *ngIf="isLoggedIn == true">
-        <button mat-button [routerLink]="['/cart']">Rental Agreement</button>
+        <button mat-button [routerLink]="['/agreement']">Rental Agreement</button>
         <button mat-button [routerLink]="['/order']">Rented Cars</button>
       </ng-container>
       <ng-container *ngIf="isLoggedIn == true && userRole == 'Admin'">

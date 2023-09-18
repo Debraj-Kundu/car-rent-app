@@ -21,6 +21,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { BookCarService } from 'src/app/Shared/Service/book-car.service';
+import { RentalAgreement } from 'src/app/Shared/Interface/RentalAgreement.interface';
+
 const matModules = [
   MatFormFieldModule,
   MatInputModule,
@@ -45,7 +48,8 @@ export class RentalAgreementComponent implements OnInit, OnDestroy {
     private router: Router,
     private userStore: UserStoreService,
     private toast: ToastService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private bookCar: BookCarService
   ) {
     try {
       localStorage.getItem('selected-car');
@@ -79,11 +83,30 @@ export class RentalAgreementComponent implements OnInit, OnDestroy {
       }),
     });
   }
-  Login() {
+  book() {
     if (this.rentForm.valid) {
       this.dateRented = this.rentForm.value.dateRented;
       this.dateReturn = this.rentForm.value.dateReturn;
-      this.router.navigate(['/rented-cars']);
+      const diffTime = Math.abs(
+        this.dateReturn.getTime() - this.dateRented.getTime()
+      );
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const agreement: RentalAgreement = {
+        userId: 0,
+        carId: this.car.id,
+        dateRented: this.dateRented,
+        dateReturn: this.dateReturn,
+        totalCost: this.car.rentalPrice * diffDays,
+      };
+      this.bookCar.bookCar(agreement).subscribe({
+        next: (res) => {
+          this.toast.successToast('Booked successfully!');
+        },
+        error: (err) => {
+          this.toast.errorToast('Car is booked try other date');
+        },
+      });
+      this.router.navigate(['/order']);
     }
   }
   ngOnDestroy(): void {

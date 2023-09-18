@@ -78,6 +78,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.loginService.storeToken(res.token);
 
             const tokenPayload = this.loginService.decodeToken();
+            console.log(tokenPayload);
+            
             this.userStore.setfullnameForStore(tokenPayload.unique_name);
             this.userStore.setRoleForStore(tokenPayload.role);
             this.userStore.setIdForStore(tokenPayload.nameid);
