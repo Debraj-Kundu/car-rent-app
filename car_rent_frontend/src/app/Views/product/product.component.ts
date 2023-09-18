@@ -45,7 +45,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     private router: Router,
     private userStore: UserStoreService,
     private toast: ToastService,
-    private fb: FormBuilder,
+    private fb: FormBuilder
   ) {}
 
   id: string | null = '';
@@ -81,25 +81,30 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.quantity = Math.max(0, this.quantity - 1);
   }
   addToCart() {
-    let productId = 0;
     this.subscription.add(
-      this.product$.pipe(map((res) => res.id)).subscribe((res) => {
-        productId = res;
-        this.cartService
-          .postCart({ productId, quantity: this.quantity })
-          .subscribe({
-            next: (res) => {
-              this.router.navigate(['/cart']);
-              this.toast.successToast('Added to cart');
-            },
-            error: (err) => {
-              this.toast.errorToast('Error occured');
-            },
-          });
+      this.product$.subscribe({
+        next: (res) => {
+          // productId = res;
+          localStorage.setItem('selected-car', JSON.stringify(res));
+          this.router.navigate(['/agreement']);
+          this.toast.successToast('Added to cart');
+          // this.cartService
+          //   .postCart({ productId, quantity: this.quantity })
+          //   .subscribe({
+          //     next: (res) => {
+          //     },
+          //     error: (err) => {
+          //       this.toast.errorToast('Error occured');
+          //     },
+          //   });
+        },
+        error: (err) => {
+          this.toast.errorToast('Error occured');
+        },
       })
     );
   }
-  
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
