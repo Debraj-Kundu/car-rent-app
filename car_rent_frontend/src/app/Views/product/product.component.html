@@ -29,47 +29,23 @@
         <div class="d-flex">
           <div>
             <h1>{{ (product$ | async)?.maker }}</h1>
-            <p>
+            <h2>
               {{ (product$ | async)?.model }}
-            </p>
+            </h2>
             <div
               class="d-flex flex-column justify-content-between"
               *ngIf="product$ | async as product"
             >
               <div class="curr-price">
-                {{
-                  product.rentalPrice
-                    | currency : "INR"
-                }}
-              </div>
-
-              <div class="d-flex justify-content-between">
-
-                <div class="cut">
-                  <del>{{ (product$ | async)?.rentalPrice | currency : "INR" }} </del>
-                </div>
-                
+                <h2>
+                  {{ product.rentalPrice | currency : "INR" }}
+                </h2>
               </div>
             </div>
           </div>
         </div>
-        <div *ngIf="product$ | async as product">
-          <div
-            *ngIf="isLoggedIn == true"
-            class="d-flex justify-content-evenly"
-          >
-            <div class="btn-wrapper">
-              <button mat-button class="plusminus" (click)="increase()">
-                <mat-icon>add</mat-icon>
-              </button>
-
-              <span class="num">{{ quantity }}</span>
-
-              <button mat-button class="plusminus" (click)="decrease()">
-                <mat-icon>remove</mat-icon>
-              </button>
-            </div>
-          </div>
+        <div>
+          
         </div>
         <div *ngIf="product$ | async as product">
           <div *ngIf="isLoggedIn == true">
@@ -79,5 +55,4 @@
       </div>
     </div>
   </div>
-
 </div>
