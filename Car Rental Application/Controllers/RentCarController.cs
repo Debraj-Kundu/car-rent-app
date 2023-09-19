@@ -91,7 +91,7 @@ namespace Car_Rental_Application.Controllers
         }
 
         [HttpPut("{id:int}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public async Task<ActionResult> Put(int id, RentedCarDto car)
         {
             car.Id = id;

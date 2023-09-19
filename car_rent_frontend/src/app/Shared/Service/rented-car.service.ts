@@ -40,4 +40,10 @@ export class RentedCarService {
       return this.http.get<RentedCar[]>(`${this.apiurl}`);
     return this.http.get<RentedCar[]>(`${this.apiurl}/getbyuserid/${this.id}`);
   }
+  updateCar(car: any) {
+    return this.http.put(`${this.apiurl}/${car.id}`, car);
+  }
+  deleteCartItem(id: number) {
+    return this.http.delete(`${this.apiurl}/${id}`);
+  }
 }

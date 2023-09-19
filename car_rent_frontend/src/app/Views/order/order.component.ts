@@ -20,7 +20,7 @@ export class OrderComponent implements OnInit, OnDestroy {
   imageBaseUrl = 'http://localhost:5253/resources/';
   isLoggedIn: boolean = false;
   private subscription: Subscription = new Subscription();
-  role$: Observable<string> = this.userStore.getRoleFormStore();
+  role!: string;
 
   constructor(
     private rentedCarService: RentedCarService,
@@ -28,16 +28,51 @@ export class OrderComponent implements OnInit, OnDestroy {
     private userStore: UserStoreService,
     private toast: ToastService
   ) {}
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+
   ngOnInit() {
+    const roleFormToken = this.loginService.getRoleFromToken();
     this.subscription.add(
       this.userStore.getfullnameFormStore().subscribe((val) => {
         this.isLoggedIn = this.loginService.isLoggedIn();
+        this.userStore.getRoleFormStore().subscribe((val) => {
+          this.role = val || roleFormToken;
+        });
       })
     );
   }
   orderList$: Observable<RentedCar[]> = this.rentedCarService.getRentedCars();
-  return() {}
+  applyReturn(id: number) {
+    let item: RentedCar;
+    this.subscription.add(
+      this.orderList$.subscribe((list: RentedCar[]) => {
+        item = list.filter((car) => car.id === id)[0];
+        item.appliedForReturn = true;
+        this.rentedCarService.updateCar(item).subscribe({
+          next: (res) => {
+            this.orderList$ = this.rentedCarService.getRentedCars();
+            this.toast.successToast('Applied for return!');
+          },
+          error: (err) => {
+            this.toast.errorToast('Error occured retry!');
+          },
+        });
+      })
+    );
+  }
+  acceptReturn(id: number) {
+    this.subscription.add(
+      this.rentedCarService.deleteCartItem(id).subscribe({
+        next: (res) => {
+          this.orderList$ = this.rentedCarService.getRentedCars();
+          this.toast.successToast('Successfully returned!');
+        },
+        error: (err) => {
+          this.toast.errorToast('Error occured retry!');
+        },
+      })
+    );
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 }
