@@ -32,9 +32,7 @@ namespace BuisnessLayer.CarAppService.Implementation
             {
                 return true;
             }
-            /*
-             * 15 - 17 , 25-30 | 21-24,
-             */
+            
             
             if (carToCreate.DateRented == DateTimeOffset.Now && carToCreate.DateReturn < rents[0].DateRented)
             {

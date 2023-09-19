@@ -1,4 +1,7 @@
-<div *ngFor="let item of orderList$ | async " class="container mt-3 d-flex justify-content-center">
+<div
+  *ngFor="let item of orderList$ | async"
+  class="container mt-3 d-flex justify-content-center"
+>
   <mat-card class="order-card p-2 mb-4" *ngIf="item as RentedCar">
     <mat-card-content class="d-flex flex-row justify-content-between">
       <img
@@ -19,7 +22,7 @@
       <div class="curr-price">
         {{ RentedCar.dateRented | date }}
       </div>
-      <p> - </p>
+      <p>-</p>
       <div class="cut">
         {{ RentedCar.dateReturn | date }}
       </div>
@@ -27,13 +30,9 @@
     <div>
       <mat-card-footer>
         <div class="d-md-flex m-2 pb-3 justify-content-evenly">
-          <button
-          mat-raised-button
-          color="warn"
-          type="button"
-          >
-            Return
-          </button>
+          <button *ngIf="(role$ | async) === 'User'" mat-raised-button color="warn" type="button">Return</button>
+          <button *ngIf="(role$ | async) === 'Admin'" mat-raised-button color="primary" type="button">Accept Return</button>
+          <!-- <button mat-raised-button color="warn" type="button">Return</button> -->
         </div>
       </mat-card-footer>
     </div>
