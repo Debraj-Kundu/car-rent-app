@@ -1,0 +1,39 @@
+<div
+  *ngFor="let item of agreementList"
+  class="container mt-3 d-flex justify-content-center"
+>
+  <mat-card class="order-card p-2 mb-4" *ngIf="item as RentedCar">
+    <mat-card-content class="d-flex flex-row justify-content-between">
+      <img
+        [src]="imageBaseUrl + RentedCar.carDto.carImage"
+        height="150"
+        width="150"
+      />
+      <div class="d-flex flex-column">
+        <div>
+          <h2>{{ RentedCar.carDto.maker }}</h2>
+        </div>
+        <div>
+          <h2>{{ RentedCar.carDto.model }}</h2>
+        </div>
+        <div>
+          <h3 class="curr-price">
+            Bill: {{ RentedCar.totalCost | currency : "INR" }}
+          </h3>
+        </div>
+      </div>
+      <div class="curr-price">
+        {{ RentedCar.dateRented | date }}
+      </div>
+      <p>-</p>
+      <div class="cut">
+        {{ RentedCar.dateReturn | date }}
+      </div>
+    </mat-card-content>
+    <mat-card-footer>
+      <button mat-raised-button color="primary" (click)="selectCar(RentedCar)">
+        Continue
+      </button>
+    </mat-card-footer>
+  </mat-card>
+</div>

@@ -122,6 +122,13 @@ export class RentalAgreementComponent implements OnInit, OnDestroy {
         next: (res) => {
           this.toast.successToast('Rented successfully!');
           try {
+            let agreements: any[] = JSON.parse(
+              localStorage.getItem('agremments') ?? ''
+            );
+            agreements = agreements.filter(
+              (rc) => rc.carDto.id !== agreement.carId
+            );
+            localStorage.setItem('agremments', JSON.stringify(agreements));
             localStorage.removeItem('booked-car');
           } catch (err) {}
           this.router.navigate(['/rented-car']);

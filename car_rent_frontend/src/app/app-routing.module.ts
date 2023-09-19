@@ -69,6 +69,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'all-agreements',
+    loadComponent: () =>
+      import('./Views/all-agreemments/all-agreemments.component').then(
+        (c) => c.AllAgreemmentsComponent
+      ),
+    canActivate: [AuthGuard],
+  },
+  {
     path: '**',
     loadComponent: () =>
       import('./Core/error-page/error-page.component').then(

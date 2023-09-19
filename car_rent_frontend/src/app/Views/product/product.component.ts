@@ -210,6 +210,14 @@ export class ProductComponent implements OnInit, OnDestroy {
         appliedForReturn: false,
       };
       localStorage.setItem('booked-car', JSON.stringify(agreement));
+      try{
+        const agreemments:any[] = JSON.parse(localStorage.getItem('agremments')??'');
+        if(agreemments.length > 0)
+          localStorage.setItem('agremments', JSON.stringify([...agreemments, agreement]))
+      }
+      catch(err){
+        localStorage.setItem('agremments', JSON.stringify([agreement]));
+      }
       this.router.navigate(['/agreement']);
 
       // this.bookCar.bookCar(agreement).subscribe({
