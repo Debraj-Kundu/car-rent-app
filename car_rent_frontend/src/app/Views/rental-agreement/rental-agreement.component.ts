@@ -23,6 +23,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { BookCarService } from 'src/app/Shared/Service/book-car.service';
 import { RentalAgreement } from 'src/app/Shared/Interface/RentalAgreement.interface';
+import { RentedCar } from 'src/app/Shared/Interface/RentedCar.interface';
 
 const matModules = [
   MatFormFieldModule,
@@ -52,59 +53,81 @@ export class RentalAgreementComponent implements OnInit, OnDestroy {
     private bookCar: BookCarService
   ) {
     try {
-      localStorage.getItem('selected-car');
+      localStorage.getItem('booked-car');
     } catch (error) {
       console.log(error);
-      localStorage.setItem('selected-car', '');
+      localStorage.setItem('booked-car', '');
     }
   }
   imageBaseUrl = 'http://localhost:5253/resources/';
 
-  car!: Car;
+  car!: RentedCar;
   isLoggedIn: boolean = false;
   private subscription: Subscription = new Subscription();
   rentForm!: FormGroup;
   dateRented!: Date;
   dateReturn!: Date;
+  totalCost!: number;
 
   ngOnInit(): void {
-    this.car = JSON.parse(localStorage.getItem('selected-car') ?? '');
+    this.car = JSON.parse(localStorage.getItem('booked-car') ?? '');
+    this.totalCost = this.car.totalCost;
+    this.dateRented = this.car.dateRented;
+    this.dateReturn = this.car.dateReturn;
     this.subscription.add(
       this.userStore.getfullnameFormStore().subscribe((val) => {
         this.isLoggedIn = this.loginService.isLoggedIn();
       })
     );
     this.rentForm = this.fb.group({
-      dateRented: new FormControl('', {
+      dateRented: new FormControl(this.car.dateRented, {
         validators: [Validators.required],
       }),
-      dateReturn: new FormControl('', {
+      dateReturn: new FormControl(this.car.dateReturn, {
         validators: [Validators.required],
       }),
     });
   }
+  private calTotal() {
+    this.dateRented = this.rentForm.value.dateRented ?? this.dateRented;
+    this.dateReturn = this.rentForm.value.dateReturn ?? this.dateReturn;
+    const diffTime = Math.abs(
+      new Date(this.dateReturn).getTime() - new Date(this.dateRented).getTime()
+    );
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return this.car.carDto.rentalPrice * diffDays;
+  }
+  dateChange() {
+    this.totalCost = this.calTotal();
+    console.log(this.totalCost);
+  }
   book() {
     if (this.rentForm.valid) {
-      this.dateRented = this.rentForm.value.dateRented;
-      this.dateReturn = this.rentForm.value.dateReturn;
-      const diffTime = Math.abs(
-        this.dateReturn.getTime() - this.dateRented.getTime()
-      );
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      // this.dateRented = this.rentForm.value.dateRented ?? this.dateRented;
+      // this.dateReturn = this.rentForm.value.dateReturn ?? this.dateReturn;
+
+      // const diffTime = Math.abs(
+      //   new Date(this.dateReturn).getTime() -
+      //     new Date(this.dateRented).getTime()
+      // );
+      // const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
       const agreement: RentalAgreement = {
         userId: 0,
-        carId: this.car.id,
+        carId: this.car.carDto.id,
         dateRented: this.dateRented,
         dateReturn: this.dateReturn,
-        totalCost: this.car.rentalPrice * diffDays,
+        totalCost: this.calTotal(),
       };
       this.bookCar.bookCar(agreement).subscribe({
         next: (res) => {
-          this.toast.successToast('Booked successfully!');
+          this.toast.successToast('Rented successfully!');
+          try {
+            localStorage.removeItem('booked-car');
+          } catch (err) {}
           this.router.navigate(['/rented-car']);
         },
         error: (err) => {
-          this.toast.errorToast('Car is booked try other date');
+          this.toast.errorToast('Car is rented try other date');
         },
       });
     }

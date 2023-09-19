@@ -1,4 +1,4 @@
-<!-- {{ product$ | async | json }} -->
+<!-- {{ product$ | async | json }}
 
 <div class="d-flex justify-content-evenly mt-4">
   <div class="wrapper">
@@ -44,14 +44,94 @@
             </div>
           </div>
         </div>
-        <div>
-          
-        </div>
-        <div *ngIf="product$ | async as product">
-          <div *ngIf="isLoggedIn == true">
-            <h2>Out of stock</h2>
+      </div>
+    </div>
+  </div>
+</div> -->
+<div class="d-flex justify-content-evenly mt-4">
+  <div class="wrapper" *ngIf="car as Car">
+    <div class="card radius shadowDepth1">
+      <div class="card__image border-tlr-radius">
+        <img
+          [src]="imageBaseUrl + Car.carImage"
+          alt="image"
+          class="border-tlr-radius"
+          height="300"
+          width="300"
+        />
+      </div>
+
+      <div class="card__content card__padding">
+        <div class="d-flex">
+          <div>
+            <h1>{{ Car.maker }}</h1>
+            <h2>
+              {{ Car.model }}
+            </h2>
+            <div class="d-flex flex-column justify-content-between">
+              <div class="curr-price">
+                <h2>
+                  {{ Car.rentalPrice | currency : "INR" }}
+                </h2>
+              </div>
+            </div>
           </div>
         </div>
+        <form class="login-form" [formGroup]="rentForm">
+          <div>
+            <mat-form-field class="form-body">
+              <mat-label>Rental Date</mat-label>
+              <input
+                readonly
+                matInput
+                [matDatepicker]="picker"
+                formControlName="dateRented"
+              />
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error
+                *ngIf="rentForm.get('dateRented')?.hasError('required')"
+              >
+                You must pick a date
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="form-body">
+              <mat-label>Return Date</mat-label>
+              <input
+                readonly
+                matInput
+                [matDatepicker]="picker2"
+                formControlName="dateReturn"
+              />
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="picker2"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+              <mat-error
+                *ngIf="rentForm.get('dateReturn')?.hasError('required')"
+              >
+                You must pick a date
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-card-footer>
+              <div class="btn-row" style="margin: 2px">
+                <button [disabled]="rentForm.invalid" mat-raised-button color="primary" type="submit" (click)="book()">
+                  Book
+                </button>
+              </div>
+            </mat-card-footer>
+          </div>
+        </form>
       </div>
     </div>
   </div>

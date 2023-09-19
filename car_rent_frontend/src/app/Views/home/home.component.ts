@@ -15,7 +15,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 
 import { LoginService } from 'src/app/Shared/Service/login.service';
 import { UserStoreService } from 'src/app/Shared/Service/user-store.service';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import {
   FormBuilder,
   FormControl,
@@ -58,7 +58,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private loginService: LoginService,
     private userStore: UserStoreService,
     private toast: ToastService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {}
 
   imageBaseUrl = 'http://localhost:5253/resources/';
@@ -66,7 +67,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   productsList$: Observable<Car[]> = this.productService.getAllProducts();
 
   selected!: any;
-  searchBox!: FormGroup;
+  modelSearchBox!: FormGroup;
+  makerSearchBox!: FormGroup;
+  priceSearchBox!: FormGroup;
   searchText = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -89,7 +92,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
 
   ngOnInit(): void {
-    this.searchBox = this.fb.group({
+    this.modelSearchBox = this.fb.group({
+      search: new FormControl(''),
+    });
+    this.makerSearchBox = this.fb.group({
+      search: new FormControl(''),
+    });
+    this.priceSearchBox = this.fb.group({
       search: new FormControl(''),
     });
     const roleFormToken = this.loginService.getRoleFromToken();
@@ -116,25 +125,51 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.tableData$ = this.productsList$.pipe(
       map((item) => {
         const dataSource = this.dataSource;
-        
+
         dataSource.paginator = this.paginator;
         dataSource.sort = this.sort;
         return dataSource;
       })
     );
   }
-  filterByName() {
+  filterByMaker() {
     this.tableData$ = this.productsList$.pipe(
       map((item) => {
         const dataSource = this.dataSource;
-        dataSource.data = item.filter(
-          (prod) =>
-            prod.maker
-              .toLocaleLowerCase()
-              .includes(this.searchBox.value.search.toLocaleLowerCase()) ||
-            prod.model
-              .toLocaleLowerCase()
-              .includes(this.searchBox.value.search.toLocaleLowerCase())
+        dataSource.data = item.filter((prod) =>
+          prod.maker
+            .toLocaleLowerCase()
+            .includes(this.makerSearchBox.value.search.toLocaleLowerCase())
+        );
+        dataSource.paginator = this.paginator;
+        dataSource.sort = this.sort;
+        return dataSource;
+      })
+    );
+  }
+  filterByModel() {
+    this.tableData$ = this.productsList$.pipe(
+      map((item) => {
+        const dataSource = this.dataSource;
+        dataSource.data = item.filter((prod) =>
+          prod.model
+            .toLocaleLowerCase()
+            .includes(this.modelSearchBox.value.search.toLocaleLowerCase())
+        );
+        dataSource.paginator = this.paginator;
+        dataSource.sort = this.sort;
+        return dataSource;
+      })
+    );
+  }
+  filterByPrice() {
+    this.tableData$ = this.productsList$.pipe(
+      map((item) => {
+        const dataSource = this.dataSource;
+        dataSource.data = item.filter((prod) =>
+          prod.rentalPrice
+            .toString()
+            .includes(this.priceSearchBox.value.search.toLocaleLowerCase())
         );
         dataSource.paginator = this.paginator;
         dataSource.sort = this.sort;
@@ -164,6 +199,11 @@ export class HomeComponent implements OnInit, OnDestroy {
         })
       );
     }
+  }
+
+  selectedCar(car: any) {
+    localStorage.setItem('selected-car', JSON.stringify(car));
+    this.router.navigate(['/book-car']);
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

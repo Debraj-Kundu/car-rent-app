@@ -1,9 +1,9 @@
 <div class="d-flex justify-content-evenly mt-4">
-  <div class="wrapper" *ngIf="car as Car">
+  <div class="wrapper" *ngIf="car as RentedCar">
     <div class="card radius shadowDepth1">
       <div class="card__image border-tlr-radius">
         <img
-          [src]="imageBaseUrl + Car.carImage"
+          [src]="imageBaseUrl + RentedCar.carDto.carImage"
           alt="image"
           class="border-tlr-radius"
           height="300"
@@ -14,35 +14,42 @@
       <div class="card__content card__padding">
         <div class="d-flex">
           <div>
-            <h1>{{ Car.maker }}</h1>
+            <h1>{{ RentedCar.carDto.maker }}</h1>
             <h2>
-              {{ Car.model }}
+              {{ RentedCar.carDto.model }}
             </h2>
             <div class="d-flex flex-column justify-content-between">
-              <div class="curr-price">
+              <div>
                 <h2>
-                  {{ Car.rentalPrice | currency : "INR" }}
+                  Total Cost:
+                  <span class="curr-price">
+                    <!-- {{ RentedCar.totalCost | currency : "INR" }} -->
+                    {{totalCost | currency : "INR"}}
+                  </span>
                 </h2>
               </div>
             </div>
           </div>
         </div>
         <form class="login-form" [formGroup]="rentForm">
-          <div>
-            <mat-form-field class="form-body">
+          <div (click)="dateChange()">
+            <mat-form-field class="form-body" (click)="dateChange()">
               <mat-label>Rental Date</mat-label>
               <input
                 readonly
                 matInput
+                (click)="dateChange()"
                 [matDatepicker]="picker"
                 formControlName="dateRented"
               />
+              <!-- [value]="RentedCar.dateRented" -->
               <mat-hint>MM/DD/YYYY</mat-hint>
               <mat-datepicker-toggle
                 matIconSuffix
+                (click)="dateChange()"
                 [for]="picker"
               ></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
+              <mat-datepicker (click)="dateChange()" #picker></mat-datepicker>
               <mat-error
                 *ngIf="rentForm.get('dateRented')?.hasError('required')"
               >
@@ -50,21 +57,24 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div>
-            <mat-form-field class="form-body">
+          <div (click)="dateChange()">
+            <mat-form-field class="form-body" (click)="dateChange()">
               <mat-label>Return Date</mat-label>
               <input
                 readonly
                 matInput
+                (click)="dateChange()"
                 [matDatepicker]="picker2"
                 formControlName="dateReturn"
               />
+              <!-- [value]="RentedCar.dateReturn" -->
               <mat-hint>MM/DD/YYYY</mat-hint>
               <mat-datepicker-toggle
                 matIconSuffix
+                (click)="dateChange()"
                 [for]="picker2"
               ></mat-datepicker-toggle>
-              <mat-datepicker #picker2></mat-datepicker>
+              <mat-datepicker (click)="dateChange()" #picker2></mat-datepicker>
               <mat-error
                 *ngIf="rentForm.get('dateReturn')?.hasError('required')"
               >
@@ -75,8 +85,14 @@
           <div>
             <mat-card-footer>
               <div class="btn-row" style="margin: 2px">
-                <button [disabled]="rentForm.invalid" mat-raised-button color="primary" type="submit" (click)="book()">
-                  Book
+                <button
+                  [disabled]="rentForm.invalid"
+                  mat-raised-button
+                  color="primary"
+                  type="submit"
+                  (click)="book()"
+                >
+                  Rent
                 </button>
               </div>
             </mat-card-footer>
