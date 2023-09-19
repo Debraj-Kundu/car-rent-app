@@ -21,5 +21,7 @@ namespace BuisnessLayer.Domain
 
         [Column(TypeName = "decimal(18,4)")]
         public decimal TotalCost { get; set; }
+        public bool? AppliedForReturn { get; set; }
+
     }
 }

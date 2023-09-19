@@ -9,5 +9,6 @@ export interface RentedCar{
     id: number,
     dateRented: Date,
     dateReturn: Date,
-    totalCost: number
+    totalCost: number,
+    appliedForReturn: boolean
 };

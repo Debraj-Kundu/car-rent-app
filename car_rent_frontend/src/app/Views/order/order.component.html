@@ -30,8 +30,8 @@
     <div>
       <mat-card-footer>
         <div class="d-md-flex m-2 pb-3 justify-content-evenly">
-          <button *ngIf="(role$ | async) === 'User'" mat-raised-button color="warn" type="button">Return</button>
-          <button *ngIf="(role$ | async) === 'Admin'" mat-raised-button color="primary" type="button">Accept Return</button>
+          <button *ngIf="(role$ | async) === 'User' && !RentedCar.appliedForReturn" mat-raised-button color="warn" type="button">Return</button>
+          <button *ngIf="(role$ | async) === 'Admin' && RentedCar.appliedForReturn" mat-raised-button color="primary" type="button">Accept Return</button>
           <!-- <button mat-raised-button color="warn" type="button">Return</button> -->
         </div>
       </mat-card-footer>
