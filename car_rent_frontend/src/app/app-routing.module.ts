@@ -26,12 +26,6 @@ const routes: Routes = [
       import('./Views/home/home.component').then((c) => c.HomeComponent),
   },
   {
-    path: 'cart',
-    loadComponent: () =>
-      import('./Views/cart/cart.component').then((c) => c.CartComponent),
-    canActivate: [AuthGuard],
-  },
-  {
     path: 'rented-car',
     loadComponent: () =>
       import('./Views/order/order.component').then((c) => c.OrderComponent),

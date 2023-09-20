@@ -3,7 +3,7 @@ import { User } from "./User.interface";
 
 export interface RentalAgreement{
     userId: number,
-    // userDto: User,
+    userDto?: User,
     carId: number,
     // carDto: Car,
     // id: number,

@@ -1,103 +1,4 @@
-// import { Component, OnDestroy, OnInit } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { ProductService } from 'src/app/Shared/Service/product.service';
-// import { LoginService } from 'src/app/Shared/Service/login.service';
-// import { ActivatedRoute, Router } from '@angular/router';
-// import { Observable, Subscription, map } from 'rxjs';
-// import { Car } from 'src/app/Shared/Interface/Car.interface';
-// import { MatCardModule } from '@angular/material/card';
-// import { CartService } from 'src/app/Shared/Service/cart.service';
-// import { MatIconModule } from '@angular/material/icon';
-// import { MatButtonModule } from '@angular/material/button';
-// import { UserStoreService } from 'src/app/Shared/Service/user-store.service';
-// import { ToastService } from 'src/app/Shared/Service/toast.service';
-// import {
-//   FormBuilder,
-//   FormControl,
-//   FormGroup,
-//   FormsModule,
-//   ReactiveFormsModule,
-// } from '@angular/forms';
-// import { MatFormFieldModule } from '@angular/material/form-field';
-// import { MatInputModule } from '@angular/material/input';
 
-// const matModules = [
-//   MatFormFieldModule,
-//   MatInputModule,
-//   MatCardModule,
-//   MatIconModule,
-//   MatButtonModule,
-// ];
-
-// @Component({
-//   selector: 'app-product',
-//   standalone: true,
-//   imports: [CommonModule, ReactiveFormsModule, FormsModule, ...matModules],
-//   templateUrl: './product.component.html',
-//   styleUrls: ['./product.component.css'],
-// })
-// export class ProductComponent implements OnInit, OnDestroy {
-//   constructor(
-//     private productService: ProductService,
-//     private loginService: LoginService,
-//     private route: ActivatedRoute,
-//     private cartService: CartService,
-//     private router: Router,
-//     private userStore: UserStoreService,
-//     private toast: ToastService,
-//     private fb: FormBuilder
-//   ) {}
-
-//   id: string | null = '';
-//   quantity: number = 1;
-//   product$!: Observable<Car>;
-
-//   reviewForm!: FormGroup;
-
-//   imageBaseUrl = 'http://localhost:5253/resources/';
-//   private subscription: Subscription = new Subscription();
-
-//   isLoggedIn: boolean = false;
-
-//   ngOnInit(): void {
-//     this.id = this.route.snapshot.paramMap.get('id');
-
-//     this.product$ = this.productService.getProductById(this.id);
-
-//     this.subscription.add(
-//       this.userStore.getfullnameFormStore().subscribe((val) => {
-//         this.isLoggedIn = this.loginService.isLoggedIn();
-//       })
-//     );
-
-//     this.reviewForm = this.fb.group({
-//       comment: new FormControl(''),
-//     });
-//   }
-//   increase() {
-//     this.quantity += 1;
-//   }
-//   decrease() {
-//     this.quantity = Math.max(0, this.quantity - 1);
-//   }
-//   addToCart() {
-//     this.subscription.add(
-//       this.product$.subscribe({
-//         next: (res) => {
-//           localStorage.setItem('selected-car', JSON.stringify(res));
-//           this.router.navigate(['/agreement']);
-//         },
-//         error: (err) => {
-//           this.toast.errorToast('Error occured');
-//         },
-//       })
-//     );
-//   }
-
-//   ngOnDestroy(): void {
-//     this.subscription.unsubscribe();
-//   }
-// }
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Car } from 'src/app/Shared/Interface/Car.interface';
@@ -124,6 +25,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { BookCarService } from 'src/app/Shared/Service/book-car.service';
 import { RentalAgreement } from 'src/app/Shared/Interface/RentalAgreement.interface';
 import { RentedCar } from 'src/app/Shared/Interface/RentedCar.interface';
+import { User } from 'src/app/Shared/Interface/User.interface';
 
 const matModules = [
   MatFormFieldModule,
@@ -167,12 +69,26 @@ export class ProductComponent implements OnInit, OnDestroy {
   rentForm!: FormGroup;
   dateRented!: Date;
   dateReturn!: Date;
-
+  user: User = {
+    id: 0,
+    Name: '',
+    Email: '',
+    Password: '',
+    Role: '',
+  };
   ngOnInit(): void {
     this.car = JSON.parse(localStorage.getItem('selected-car') ?? '');
     this.subscription.add(
       this.userStore.getfullnameFormStore().subscribe((val) => {
         this.isLoggedIn = this.loginService.isLoggedIn();
+        this.user.Name = val;
+      })
+    );
+    this.subscription.add(
+      this.userStore.getIdFormStore().subscribe((val) => {
+        this.user.id = +val;
+        console.log(val);
+        
       })
     );
     this.rentForm = this.fb.group({
@@ -193,19 +109,13 @@ export class ProductComponent implements OnInit, OnDestroy {
       );
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
       const agreement: RentedCar = {
-        userId: 0,
+        userId: this.user.id,
         carId: this.car.id,
         carDto: this.car,
         dateRented: this.dateRented,
         dateReturn: this.dateReturn,
         totalCost: this.car.rentalPrice * diffDays,
-        userDto: {
-          id: 0,
-          Name: '',
-          Email: '',
-          Password: '',
-          Role: '',
-        },
+        userDto: this.user,
         id: 0,
         appliedForReturn: false,
       };

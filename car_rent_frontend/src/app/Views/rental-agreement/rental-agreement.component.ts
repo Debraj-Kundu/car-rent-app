@@ -24,6 +24,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { BookCarService } from 'src/app/Shared/Service/book-car.service';
 import { RentalAgreement } from 'src/app/Shared/Interface/RentalAgreement.interface';
 import { RentedCar } from 'src/app/Shared/Interface/RentedCar.interface';
+import { User } from 'src/app/Shared/Interface/User.interface';
 
 const matModules = [
   MatFormFieldModule,
@@ -68,6 +69,13 @@ export class RentalAgreementComponent implements OnInit, OnDestroy {
   dateRented!: Date;
   dateReturn!: Date;
   totalCost!: number;
+  user: User = {
+    id: 0,
+    Name: '',
+    Email: '',
+    Password: '',
+    Role: '',
+  };
 
   ngOnInit(): void {
     this.car = JSON.parse(localStorage.getItem('booked-car') ?? '');
@@ -77,8 +85,15 @@ export class RentalAgreementComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.userStore.getfullnameFormStore().subscribe((val) => {
         this.isLoggedIn = this.loginService.isLoggedIn();
+        this.user.Name = val || this.loginService.getFullNameFromToken();
       })
     );
+    this.subscription.add(
+      this.userStore.getIdFormStore().subscribe((val) => {
+        this.user.id = +val || this.loginService.getIdFromToken();
+      })
+    );
+
     this.rentForm = this.fb.group({
       dateRented: new FormControl(this.car.dateRented, {
         validators: [Validators.required],
@@ -103,14 +118,6 @@ export class RentalAgreementComponent implements OnInit, OnDestroy {
   }
   book() {
     if (this.rentForm.valid) {
-      // this.dateRented = this.rentForm.value.dateRented ?? this.dateRented;
-      // this.dateReturn = this.rentForm.value.dateReturn ?? this.dateReturn;
-
-      // const diffTime = Math.abs(
-      //   new Date(this.dateReturn).getTime() -
-      //     new Date(this.dateRented).getTime()
-      // );
-      // const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
       const agreement: RentalAgreement = {
         userId: 0,
         carId: this.car.carDto.id,
