@@ -14,13 +14,6 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'register',
-    loadComponent: () =>
-      import('./Core/register/register.component').then(
-        (c) => c.RegisterComponent
-      ),
-  },
-  {
     path: 'home',
     loadComponent: () =>
       import('./Views/home/home.component').then((c) => c.HomeComponent),
