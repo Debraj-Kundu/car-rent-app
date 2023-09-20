@@ -49,6 +49,8 @@ export class OrderComponent implements OnInit, OnDestroy {
       this.orderList$.subscribe((list: RentedCar[]) => {
         item = list.filter((car) => car.id === id)[0];
         item.appliedForReturn = true;
+        console.log(item);
+        
         this.rentedCarService.updateCar(item).subscribe({
           next: (res) => {
             this.orderList$ = this.rentedCarService.getRentedCars();

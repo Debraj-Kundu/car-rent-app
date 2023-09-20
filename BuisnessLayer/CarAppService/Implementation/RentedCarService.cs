@@ -3,6 +3,7 @@ using BuisnessLayer.CarAppService.Interface;
 using BuisnessLayer.Domain;
 using DataLayer.Entity;
 using DataLayer.UoW;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SharedLayer.Core.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -145,6 +146,11 @@ namespace BuisnessLayer.CarAppService.Implementation
         public async Task<OperationResult> UpdateRentedCarAsync(RentedCarDomain car)
         {
             RentedCar carEntity = Mapper.Map<RentedCar>(car);
+            if(carEntity.UserId == 0)
+            {
+                var entity = await GetRentedCarByIdAsync(car.Id);
+                carEntity.UserId = entity.Data.UserId;
+            }
             await UnitOfWork.RentedCarRepository.UpdateAsync(carEntity);
 
             OperationResult result = await UnitOfWork.Commit();

@@ -118,13 +118,15 @@ export class EditAgremmentComponent implements OnInit, OnDestroy {
   }
   book() {
     if (this.rentForm.valid) {
-      const agreement: RentalAgreement = {
+      const agreement: RentedCar = {
         userId: 0,
         carId: this.car.carDto.id,
         dateRented: this.dateRented,
         dateReturn: this.dateReturn,
         totalCost: this.calTotal(),
-        id: this.car.id
+        id: this.car.id,
+        carDto: this.car.carDto,
+        appliedForReturn: false
       };
       console.log(agreement);
       

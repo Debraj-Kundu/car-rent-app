@@ -43,7 +43,7 @@ export class RentedCarService {
   updateCar(car: any) {
     console.log(car);
     
-    return this.http.put(`${this.apiurl}/${car.id}`, {id: car.id, car: car});
+    return this.http.put(`${this.apiurl}/${car.id}`, car);
   }
   deleteCartItem(id: number) {
     return this.http.delete(`${this.apiurl}/${id}`);

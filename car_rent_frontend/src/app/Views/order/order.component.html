@@ -14,7 +14,7 @@
           <h2>{{ RentedCar.carDto.maker }}</h2>
         </div>
         <div>
-          <h2>{{ RentedCar.carDto.maker }}</h2>
+          <h2>{{ RentedCar.carDto.model }}</h2>
         </div>
         <div>
           <h3 class="curr-price">
@@ -29,7 +29,7 @@
       <div class="cut">
         {{ RentedCar.dateReturn | date }}
       </div>
-      <h2>{{RentedCar.userDto.Name}}</h2>
+      <h2>{{RentedCar.userDto?.Name}}</h2>
     </mat-card-content>
     <div>
       <mat-card-footer>

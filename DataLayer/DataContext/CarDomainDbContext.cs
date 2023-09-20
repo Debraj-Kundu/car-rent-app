@@ -16,7 +16,7 @@ namespace DataLayer.DataContext
         public CarDomainDbContext(DbContextOptions<CarDomainDbContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            new DbInitializer(builder).Seed();
+            //new DbInitializer(builder).Seed();
         }
     }
 }
