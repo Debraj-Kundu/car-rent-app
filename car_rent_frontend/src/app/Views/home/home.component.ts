@@ -114,50 +114,20 @@ export class HomeComponent implements OnInit, OnDestroy {
   customFilterPredicate(data: any, filters: string) {
     let match = true;
     const filtersList = JSON.parse(filters);
-    // data = JSON.parse(data);
     filtersList.forEach((filterObj: any) => {
-      // console.log(data[filterObj.key]);
-      // console.log(data[filterObj.key]
-      //   .toLocaleLowerCase()
-      //   .indexOf(filterObj.filterValue.toLocaleLowerCase())!== -1);
-
-      match =
-        match &&
-        data[filterObj.key]
-          .toLocaleLowerCase()
-          .indexOf(filterObj.filterValue.toLocaleLowerCase()) !== -1;
+      const dataKey = data[filterObj.key].toString().toLocaleLowerCase();
+      match = match && dataKey.indexOf(filterObj.filterValue) !== -1;
     });
     return match;
   }
   resetFilter() {
     this.globalFilter = [];
     this.dataSource.filter = '';
-    // this.makerSearchBox.search.value = ''
+    this.makerSearchBox.reset();
+    this.modelSearchBox.reset();
+    this.priceSearchBox.reset();
   }
-  // valueChange(value: any) {
-  //   if (value == null) {
-  //     this.tableData$ = this.productService.getAllProducts().pipe(
-  //       map((item) => {
-  //         const dataSource = this.dataSource;
-  //         dataSource.data = item;
-  //         dataSource.paginator = this.paginator;
-  //         dataSource.sort = this.sort;
-  //         return dataSource;
-  //       })
-  //     );
-  //     return;
-  //   }
-  //   this.toast.successToast(value.name);
-  //   this.tableData$ = this.productsList$.pipe(
-  //     map((item) => {
-  //       const dataSource = this.dataSource;
 
-  //       dataSource.paginator = this.paginator;
-  //       dataSource.sort = this.sort;
-  //       return dataSource;
-  //     })
-  //   );
-  // }
   filterByMaker() {
     this.globalFilter = [
       ...this.globalFilter,
@@ -167,7 +137,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       },
     ];
     this.dataSource.filter = JSON.stringify(this.globalFilter);
-
   }
   filterByModel() {
     this.globalFilter = [
@@ -178,7 +147,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       },
     ];
     this.dataSource.filter = JSON.stringify(this.globalFilter);
-
   }
   filterByPrice() {
     this.globalFilter = [
@@ -189,7 +157,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       },
     ];
     this.dataSource.filter = JSON.stringify(this.globalFilter);
-
   }
   deleteProduct(id: string) {
     if (confirm('You are about to delete the product')) {
