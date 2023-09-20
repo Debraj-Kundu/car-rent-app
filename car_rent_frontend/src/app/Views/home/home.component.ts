@@ -90,6 +90,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   userRole: string = '';
   private subscription: Subscription = new Subscription();
+  globalFilter: any[] = [];
 
   ngOnInit(): void {
     this.modelSearchBox = this.fb.group({
@@ -106,76 +107,89 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.userRole = val || roleFormToken;
     });
     if (this.userRole === 'Admin') this.displayColumns.push('actions');
+    // this.dataSource.filter = JSON.stringify(this.globalFilter);
+    this.dataSource.filterPredicate = this.customFilterPredicate;
   }
 
-  valueChange(value: any) {
-    if (value == null) {
-      this.tableData$ = this.productService.getAllProducts().pipe(
-        map((item) => {
-          const dataSource = this.dataSource;
-          dataSource.data = item;
-          dataSource.paginator = this.paginator;
-          dataSource.sort = this.sort;
-          return dataSource;
-        })
-      );
-      return;
-    }
-    this.toast.successToast(value.name);
-    this.tableData$ = this.productsList$.pipe(
-      map((item) => {
-        const dataSource = this.dataSource;
+  customFilterPredicate(data: any, filters: string) {
+    let match = true;
+    const filtersList = JSON.parse(filters);
+    // data = JSON.parse(data);
+    filtersList.forEach((filterObj: any) => {
+      // console.log(data[filterObj.key]);
+      // console.log(data[filterObj.key]
+      //   .toLocaleLowerCase()
+      //   .indexOf(filterObj.filterValue.toLocaleLowerCase())!== -1);
 
-        dataSource.paginator = this.paginator;
-        dataSource.sort = this.sort;
-        return dataSource;
-      })
-    );
+      match =
+        match &&
+        data[filterObj.key]
+          .toLocaleLowerCase()
+          .indexOf(filterObj.filterValue.toLocaleLowerCase()) !== -1;
+    });
+    return match;
   }
+  resetFilter() {
+    this.globalFilter = [];
+    this.dataSource.filter = '';
+    // this.makerSearchBox.search.value = ''
+  }
+  // valueChange(value: any) {
+  //   if (value == null) {
+  //     this.tableData$ = this.productService.getAllProducts().pipe(
+  //       map((item) => {
+  //         const dataSource = this.dataSource;
+  //         dataSource.data = item;
+  //         dataSource.paginator = this.paginator;
+  //         dataSource.sort = this.sort;
+  //         return dataSource;
+  //       })
+  //     );
+  //     return;
+  //   }
+  //   this.toast.successToast(value.name);
+  //   this.tableData$ = this.productsList$.pipe(
+  //     map((item) => {
+  //       const dataSource = this.dataSource;
+
+  //       dataSource.paginator = this.paginator;
+  //       dataSource.sort = this.sort;
+  //       return dataSource;
+  //     })
+  //   );
+  // }
   filterByMaker() {
-    this.tableData$ = this.productsList$.pipe(
-      map((item) => {
-        const dataSource = this.dataSource;
-        dataSource.data = item.filter((prod) =>
-          prod.maker
-            .toLocaleLowerCase()
-            .includes(this.makerSearchBox.value.search.toLocaleLowerCase())
-        );
-        dataSource.paginator = this.paginator;
-        dataSource.sort = this.sort;
-        return dataSource;
-      })
-    );
+    this.globalFilter = [
+      ...this.globalFilter,
+      {
+        key: 'maker',
+        filterValue: this.makerSearchBox.value.search.toLocaleLowerCase(),
+      },
+    ];
+    this.dataSource.filter = JSON.stringify(this.globalFilter);
+
   }
   filterByModel() {
-    this.tableData$ = this.productsList$.pipe(
-      map((item) => {
-        const dataSource = this.dataSource;
-        dataSource.data = item.filter((prod) =>
-          prod.model
-            .toLocaleLowerCase()
-            .includes(this.modelSearchBox.value.search.toLocaleLowerCase())
-        );
-        dataSource.paginator = this.paginator;
-        dataSource.sort = this.sort;
-        return dataSource;
-      })
-    );
+    this.globalFilter = [
+      ...this.globalFilter,
+      {
+        key: 'model',
+        filterValue: this.modelSearchBox.value.search.toLocaleLowerCase(),
+      },
+    ];
+    this.dataSource.filter = JSON.stringify(this.globalFilter);
+
   }
   filterByPrice() {
-    this.tableData$ = this.productsList$.pipe(
-      map((item) => {
-        const dataSource = this.dataSource;
-        dataSource.data = item.filter((prod) =>
-          prod.rentalPrice
-            .toString()
-            .includes(this.priceSearchBox.value.search.toLocaleLowerCase())
-        );
-        dataSource.paginator = this.paginator;
-        dataSource.sort = this.sort;
-        return dataSource;
-      })
-    );
+    this.globalFilter = [
+      ...this.globalFilter,
+      {
+        key: 'rentalPrice',
+        filterValue: this.priceSearchBox.value.search.toLocaleLowerCase(),
+      },
+    ];
+    this.dataSource.filter = JSON.stringify(this.globalFilter);
+
   }
   deleteProduct(id: string) {
     if (confirm('You are about to delete the product')) {
