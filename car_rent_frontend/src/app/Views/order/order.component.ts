@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { LoginService } from 'src/app/Shared/Service/login.service';
 import { UserStoreService } from 'src/app/Shared/Service/user-store.service';
 import { ToastService } from 'src/app/Shared/Service/toast.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order',
@@ -26,7 +27,8 @@ export class OrderComponent implements OnInit, OnDestroy {
     private rentedCarService: RentedCarService,
     private loginService: LoginService,
     private userStore: UserStoreService,
-    private toast: ToastService
+    private toast: ToastService,
+    private router:Router
   ) {}
 
   ngOnInit() {
@@ -71,6 +73,10 @@ export class OrderComponent implements OnInit, OnDestroy {
         },
       })
     );
+  }
+  editReturn(car: any) {
+    localStorage.setItem('rented-car', JSON.stringify(car));
+    this.router.navigate(['edit-agreement']);
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();

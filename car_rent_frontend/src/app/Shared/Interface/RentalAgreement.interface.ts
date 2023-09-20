@@ -10,4 +10,5 @@ export interface RentalAgreement{
     dateRented: Date,
     dateReturn: Date,
     totalCost: number
+    id?: number
 };

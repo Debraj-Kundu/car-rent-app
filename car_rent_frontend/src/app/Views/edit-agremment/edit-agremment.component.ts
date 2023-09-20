@@ -25,6 +25,7 @@ import { BookCarService } from 'src/app/Shared/Service/book-car.service';
 import { RentalAgreement } from 'src/app/Shared/Interface/RentalAgreement.interface';
 import { RentedCar } from 'src/app/Shared/Interface/RentedCar.interface';
 import { User } from 'src/app/Shared/Interface/User.interface';
+import { RentedCarService } from 'src/app/Shared/Service/rented-car.service';
 
 const matModules = [
   MatFormFieldModule,
@@ -37,27 +38,27 @@ const matModules = [
 ];
 
 @Component({
-  selector: 'app-rental-agreement',
+  selector: 'app-edit-agremment',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule, ...matModules],
-  templateUrl: './rental-agreement.component.html',
-  styleUrls: ['./rental-agreement.component.css'],
+  templateUrl: './edit-agremment.component.html',
+  styleUrls: ['./edit-agremment.component.css']
 })
-export class RentalAgreementComponent implements OnInit, OnDestroy {
+export class EditAgremmentComponent implements OnInit, OnDestroy {
   constructor(
     private loginService: LoginService,
-    private route: ActivatedRoute,
     private router: Router,
     private userStore: UserStoreService,
     private toast: ToastService,
     private fb: FormBuilder,
-    private bookCar: BookCarService
+    private rentedCarService: RentedCarService,
+
   ) {
     try {
-      localStorage.getItem('booked-car');
+      localStorage.getItem('rented-car');
     } catch (error) {
       console.log(error);
-      localStorage.setItem('booked-car', '');
+      localStorage.setItem('rented-car', '');
     }
   }
   imageBaseUrl = 'http://localhost:5253/resources/';
@@ -78,7 +79,7 @@ export class RentalAgreementComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit(): void {
-    this.car = JSON.parse(localStorage.getItem('booked-car') ?? '');
+    this.car = JSON.parse(localStorage.getItem('rented-car') ?? '');
     this.totalCost = this.car.totalCost;
     this.dateRented = this.car.dateRented;
     this.dateReturn = this.car.dateReturn;
@@ -123,24 +124,27 @@ export class RentalAgreementComponent implements OnInit, OnDestroy {
         dateRented: this.dateRented,
         dateReturn: this.dateReturn,
         totalCost: this.calTotal(),
+        id: this.car.id
       };
-      this.bookCar.bookCar(agreement).subscribe({
+      console.log(agreement);
+      
+      this.rentedCarService.updateCar(agreement).subscribe({
         next: (res) => {
-          this.toast.successToast('Rented successfully!');
-          try {
-            let agreements: any[] = JSON.parse(
-              localStorage.getItem('agremments') ?? ''
-            );
-            agreements = agreements.filter(
-              (rc) => rc.carDto.id !== agreement.carId
-            );
-            localStorage.setItem('agremments', JSON.stringify(agreements));
-            localStorage.removeItem('booked-car');
-          } catch (err) {}
+          this.toast.successToast('Edit successfully!');
+          // try {
+          //   let agreements: any[] = JSON.parse(
+          //     localStorage.getItem('agremments') ?? ''
+          //   );
+          //   agreements = agreements.filter(
+          //     (rc) => rc.carDto.id !== agreement.carId
+          //   );
+          //   localStorage.setItem('agremments', JSON.stringify(agreements));
+          //   localStorage.removeItem('rented-car');
+          // } catch (err) {}
           this.router.navigate(['/rented-car']);
         },
         error: (err) => {
-          this.toast.errorToast('Car is rented try other date');
+          this.toast.errorToast('Error occured');
         },
       });
     }
@@ -149,3 +153,4 @@ export class RentalAgreementComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 }
+

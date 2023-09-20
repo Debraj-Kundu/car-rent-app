@@ -29,6 +29,7 @@
       <div class="cut">
         {{ RentedCar.dateReturn | date }}
       </div>
+      <h2>{{RentedCar.userDto.Name}}</h2>
     </mat-card-content>
     <div>
       <mat-card-footer>
@@ -50,6 +51,7 @@
             mat-raised-button
             color="primary"
             type="button"
+            (click)="editReturn(RentedCar)"
           >
             Edit
           </button>

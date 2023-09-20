@@ -56,6 +56,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'edit-agreement',
+    loadComponent: () =>
+      import('./Views/edit-agremment/edit-agremment.component').then(
+        (c) => c.EditAgremmentComponent
+      ),
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'all-agreements',
     loadComponent: () =>
       import('./Views/all-agreemments/all-agreemments.component').then(

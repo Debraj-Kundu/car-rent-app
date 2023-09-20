@@ -41,7 +41,9 @@ export class RentedCarService {
     return this.http.get<RentedCar[]>(`${this.apiurl}/getbyuserid/${this.id}`);
   }
   updateCar(car: any) {
-    return this.http.put(`${this.apiurl}/${car.id}`, car);
+    console.log(car);
+    
+    return this.http.put(`${this.apiurl}/${car.id}`, {id: car.id, car: car});
   }
   deleteCartItem(id: number) {
     return this.http.delete(`${this.apiurl}/${id}`);
