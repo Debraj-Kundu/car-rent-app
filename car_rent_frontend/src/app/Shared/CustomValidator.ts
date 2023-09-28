@@ -6,7 +6,7 @@ export default class CustomValidators {
         const control = controls.get(controlName);
         const matchControl = controls.get(matchControlName);
   
-        if (!matchControl?.errors && control?.value !== matchControl?.value) {
+        if (!matchControl?.errors && control?.value >= matchControl?.value) {
           matchControl?.setErrors({
             matching: {
               actualValue: matchControl?.value,

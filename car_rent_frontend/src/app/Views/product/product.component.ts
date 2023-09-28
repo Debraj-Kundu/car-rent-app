@@ -1,4 +1,3 @@
-
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Car } from 'src/app/Shared/Interface/Car.interface';
@@ -26,6 +25,7 @@ import { BookCarService } from 'src/app/Shared/Service/book-car.service';
 import { RentalAgreement } from 'src/app/Shared/Interface/RentalAgreement.interface';
 import { RentedCar } from 'src/app/Shared/Interface/RentedCar.interface';
 import { User } from 'src/app/Shared/Interface/User.interface';
+import CustomValidators from 'src/app/Shared/CustomValidator';
 
 const matModules = [
   MatFormFieldModule,
@@ -69,6 +69,8 @@ export class ProductComponent implements OnInit, OnDestroy {
   rentForm!: FormGroup;
   dateRented!: Date;
   dateReturn!: Date;
+  minDate: Date = new Date(Date.now());
+  // minReturnDate: Date = new Date();
   user: User = {
     id: 0,
     Name: '',
@@ -88,17 +90,21 @@ export class ProductComponent implements OnInit, OnDestroy {
       this.userStore.getIdFormStore().subscribe((val) => {
         this.user.id = +val;
         console.log(val);
-        
       })
     );
-    this.rentForm = this.fb.group({
-      dateRented: new FormControl('', {
-        validators: [Validators.required],
-      }),
-      dateReturn: new FormControl('', {
-        validators: [Validators.required],
-      }),
-    });
+    this.rentForm = this.fb.group(
+      {
+        dateRented: new FormControl('', {
+          validators: [Validators.required],
+        }),
+        dateReturn: new FormControl('', {
+          validators: [Validators.required],
+        }),
+      },
+      {
+        validators: [CustomValidators.match('dateRented', 'dateReturn')],
+      }
+    );
   }
   book() {
     if (this.rentForm.valid) {
@@ -120,25 +126,19 @@ export class ProductComponent implements OnInit, OnDestroy {
         appliedForReturn: false,
       };
       localStorage.setItem('booked-car', JSON.stringify(agreement));
-      try{
-        const agreemments:any[] = JSON.parse(localStorage.getItem('agremments')??'');
-        if(agreemments.length > 0)
-          localStorage.setItem('agremments', JSON.stringify([...agreemments, agreement]))
-      }
-      catch(err){
+      try {
+        const agreemments: any[] = JSON.parse(
+          localStorage.getItem('agremments') ?? ''
+        );
+        if (agreemments.length > 0)
+          localStorage.setItem(
+            'agremments',
+            JSON.stringify([...agreemments, agreement])
+          );
+      } catch (err) {
         localStorage.setItem('agremments', JSON.stringify([agreement]));
       }
       this.router.navigate(['/agreement']);
-
-      // this.bookCar.bookCar(agreement).subscribe({
-      //   next: (res) => {
-      //     this.toast.successToast('Booked successfully!');
-      //     this.router.navigate(['/rented-car']);
-      //   },
-      //   error: (err) => {
-      //     this.toast.errorToast('Car is booked try other date');
-      //   },
-      // });
     }
   }
   ngOnDestroy(): void {

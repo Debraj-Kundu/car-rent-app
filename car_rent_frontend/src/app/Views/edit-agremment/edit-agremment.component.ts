@@ -119,30 +119,21 @@ export class EditAgremmentComponent implements OnInit, OnDestroy {
   book() {
     if (this.rentForm.valid) {
       const agreement: RentedCar = {
-        userId: 0,
+        userId: this.car.userId,
         carId: this.car.carDto.id,
         dateRented: this.dateRented,
         dateReturn: this.dateReturn,
         totalCost: this.calTotal(),
         id: this.car.id,
         carDto: this.car.carDto,
-        appliedForReturn: false
+        appliedForReturn: false,
+        userDto: this.car.userDto
       };
       console.log(agreement);
       
       this.rentedCarService.updateCar(agreement).subscribe({
         next: (res) => {
           this.toast.successToast('Edit successfully!');
-          // try {
-          //   let agreements: any[] = JSON.parse(
-          //     localStorage.getItem('agremments') ?? ''
-          //   );
-          //   agreements = agreements.filter(
-          //     (rc) => rc.carDto.id !== agreement.carId
-          //   );
-          //   localStorage.setItem('agremments', JSON.stringify(agreements));
-          //   localStorage.removeItem('rented-car');
-          // } catch (err) {}
           this.router.navigate(['/rented-car']);
         },
         error: (err) => {

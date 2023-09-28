@@ -36,6 +36,7 @@
                 readonly
                 matInput
                 [matDatepicker]="picker"
+                [min]="minDate"
                 formControlName="dateRented"
               />
               <mat-hint>MM/DD/YYYY</mat-hint>
@@ -70,6 +71,9 @@
                 *ngIf="rentForm.get('dateReturn')?.hasError('required')"
               >
                 You must pick a date
+              </mat-error>
+              <mat-error *ngIf="rentForm.hasError('matching')">
+                Return date must be greater than rental date
               </mat-error>
             </mat-form-field>
           </div>
