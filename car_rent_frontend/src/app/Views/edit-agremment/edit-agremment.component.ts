@@ -26,6 +26,7 @@ import { RentalAgreement } from 'src/app/Shared/Interface/RentalAgreement.interf
 import { RentedCar } from 'src/app/Shared/Interface/RentedCar.interface';
 import { User } from 'src/app/Shared/Interface/User.interface';
 import { RentedCarService } from 'src/app/Shared/Service/rented-car.service';
+import CustomValidators from 'src/app/Shared/CustomValidator';
 
 const matModules = [
   MatFormFieldModule,
@@ -70,6 +71,7 @@ export class EditAgremmentComponent implements OnInit, OnDestroy {
   dateRented!: Date;
   dateReturn!: Date;
   totalCost!: number;
+  minDate: Date = new Date(Date.now());
   user: User = {
     id: 0,
     Name: '',
@@ -102,6 +104,9 @@ export class EditAgremmentComponent implements OnInit, OnDestroy {
       dateReturn: new FormControl(this.car.dateReturn, {
         validators: [Validators.required],
       }),
+    },
+    {
+      validators: [CustomValidators.match('dateRented', 'dateReturn')],
     });
   }
   private calTotal() {

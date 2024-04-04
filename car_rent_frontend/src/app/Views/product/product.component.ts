@@ -70,7 +70,6 @@ export class ProductComponent implements OnInit, OnDestroy {
   dateRented!: Date;
   dateReturn!: Date;
   minDate: Date = new Date(Date.now());
-  // minReturnDate: Date = new Date();
   user: User = {
     id: 0,
     Name: '',

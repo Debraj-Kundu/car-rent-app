@@ -23,11 +23,11 @@
         </div>
       </div>
       <div class="curr-price">
-        {{ RentedCar.dateRented | date }}
+        {{ (RentedCar.dateRented)| date:"dd-MMM-yyyy":"Asia/Kolkata" }}
       </div>
       <p>-</p>
       <div class="cut">
-        {{ RentedCar.dateReturn | date }}
+        {{ RentedCar.dateReturn | date:"dd-MMM-yyyy":"Asia/Kolkata" }}
       </div>
       <h2>{{RentedCar.userDto?.Name}}</h2>
     </mat-card-content>

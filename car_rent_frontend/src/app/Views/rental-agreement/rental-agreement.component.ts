@@ -116,6 +116,8 @@ export class RentalAgreementComponent implements OnInit, OnDestroy {
     this.totalCost = this.calTotal();
   }
   book() {
+    this.dateRented = this.rentForm.value.dateRented;
+    this.dateReturn = this.rentForm.value.dateReturn;
     if (this.rentForm.valid) {
       const agreement: RentalAgreement = {
         userId: 0,

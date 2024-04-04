@@ -28,7 +28,7 @@ export class OrderComponent implements OnInit, OnDestroy {
     private loginService: LoginService,
     private userStore: UserStoreService,
     private toast: ToastService,
-    private router:Router
+    private router:Router,
   ) {}
 
   ngOnInit() {
